@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -c ':*)",
+      "Bash(.venv/Scripts/python -c ':*)",
+      "Bash(.venv/Scripts/pip install:*)",
+      "Read(//d/Work/Learning/优质资料/简历相关/**)",
+      "Bash(python3 -c ':*)",
+      "Bash(python:*)",
+      "Bash(wc:*)"
+    ]
+  }
+}
