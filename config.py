@@ -8,7 +8,7 @@ QIANWEN_API_KEY = os.getenv("QIANWEN_API_KEY", "")
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")
 
 # LLM 配置
-LLM_MODEL = "qwen-plus"
+LLM_MODEL = "deepseek-v4-flash"
 EMBEDDING_MODEL = "text-embedding-v3"
 
 # RAG 配置

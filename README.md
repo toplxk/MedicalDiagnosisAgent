@@ -40,8 +40,9 @@
 
 ## 技术栈
 
-- **大语言模型：** 通义千问 qwen-plus（通过 DashScope API）
-- **文本向量化：** text-embedding-v3
+- **AI 框架：** LangChain（langchain + langchain-community + langchain-core）
+- **大语言模型：** 通义千问 qwen-plus（通过 LangChain ChatTongyi 封装）
+- **文本向量化：** text-embedding-v3（通过 LangChain DashScopeEmbeddings 封装）
 - **向量数据库：** ChromaDB（HNSW 索引，余弦相似度）
 - **开发语言：** Python 3.10+
 
@@ -170,6 +171,14 @@ RouterAgent 接收所有用户输入，通过 LLM 输出结构化 JSON 进行意
 ### 工具调用
 
 通过 Prompt Engineering 实现，系统提示词中嵌入工具 Schema，LLM 输出 JSON 格式的工具调用指令，代码端解析并执行后将结果反馈给 LLM 合成自然语言回复。不依赖原生 Function Calling API。
+
+### LangChain 集成
+
+LLM 调用和 Embedding 生成均通过 LangChain 框架封装：
+- `ChatTongyi`（langchain-community）封装通义千问 qwen-plus，支持流式输出
+- `DashScopeEmbeddings`（langchain-community）封装 text-embedding-v3 向量化
+- 对话历史使用 LangChain 消息类型（SystemMessage、HumanMessage、AIMessage）
+- 上层 Agent 逻辑与底层 LLM 解耦，便于切换模型或扩展能力
 
 ## 免责声明
 
