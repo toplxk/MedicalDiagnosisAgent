@@ -39,19 +39,23 @@ class BaseAgent:
         self._update_history(user_message, response)
         return response
 
-    def chat_stream(self, user_message: str, extra_context: str = None, temperature: float = 0.7) -> str:
-        """流式对话调用，逐token打印并返回完整回复。
+    def chat_stream(self, user_message: str, extra_context: str = None,
+                    temperature: float = 0.7, echo: bool = True) -> str:
+        """流式对话调用，可选逐 token 打印，返回完整回复。
 
-        Returns:
-            模型完整回复
+        Args:
+            echo: True 时打印到控制台（CLI）；False 时静默（API）
         """
         messages = self._build_messages(user_message, extra_context)
         full_response = ""
-        print("\n[助手] ", end="", flush=True)
+        if echo:
+            print("\n[助手] ", end="", flush=True)
         for chunk in chat_stream(messages, temperature=temperature):
-            print(chunk, end="", flush=True)
+            if echo:
+                print(chunk, end="", flush=True)
             full_response += chunk
-        print()  # 换行
+        if echo:
+            print()
         self._update_history(user_message, full_response)
         return full_response
 

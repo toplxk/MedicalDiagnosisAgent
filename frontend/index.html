@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智能医疗导诊 · MedDesk</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <strong>MedDesk</strong>
+          <span>智能医疗导诊</span>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <span class="status-pill" id="healthPill">
+          <i class="dot"></i>
+          <span id="healthText">连接中…</span>
+        </span>
+        <button type="button" class="btn ghost" id="btnReset" title="重置当前会话">重置对话</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <!-- 左：服务轨 -->
+      <aside class="rail" aria-label="服务导航">
+        <p class="rail-label">服务</p>
+        <nav class="rail-nav" id="serviceNav">
+          <button type="button" class="rail-item is-active" data-service="chat" data-prompt="">
+            <span class="rail-icon">聊</span>
+            <span class="rail-copy">
+              <strong>智能对话</strong>
+              <em>自动识别意图并分发</em>
+            </span>
+          </button>
+          <button type="button" class="rail-item" data-service="appointment" data-prompt="我想预约挂号">
+            <span class="rail-icon">约</span>
+            <span class="rail-copy">
+              <strong>预约挂号</strong>
+              <em>查排班 · 预约 · 取消</em>
+            </span>
+          </button>
+          <button type="button" class="rail-item" data-service="queue" data-prompt="帮我取个号">
+            <span class="rail-icon">号</span>
+            <span class="rail-copy">
+              <strong>排队叫号</strong>
+              <em>取号 · 查进度 · 叫号</em>
+            </span>
+          </button>
+          <button type="button" class="rail-item" data-service="consult" data-prompt="">
+            <span class="rail-icon">询</span>
+            <span class="rail-copy">
+              <strong>医疗咨询</strong>
+              <em>RAG 知识库问答</em>
+            </span>
+          </button>
+          <button type="button" class="rail-item" data-service="diagnosis" data-prompt="我最近身体不舒服，想做症状分析">
+            <span class="rail-icon">诊</span>
+            <span class="rail-copy">
+              <strong>症状诊断</strong>
+              <em>多轮追问 · 初步分析</em>
+            </span>
+          </button>
+        </nav>
+
+        <div class="rail-foot">
+          <p class="rail-label">会话</p>
+          <div class="session-box">
+            <span class="session-id" id="sessionIdLabel">—</span>
+            <button type="button" class="btn tiny" id="btnNewSession">新建会话</button>
+          </div>
+          <p class="disclaimer">演示系统，不构成医疗建议。紧急情况请拨打 120。</p>
+        </div>
+      </aside>
+
+      <!-- 中：对话 -->
+      <main class="main" aria-label="对话区">
+        <div class="intent-strip" id="intentStrip" aria-live="polite">
+          <span class="intent-label">当前处理</span>
+          <div class="intent-chips">
+            <span class="intent-chip" data-intent="appointment">预约</span>
+            <span class="intent-chip" data-intent="queue">排队</span>
+            <span class="intent-chip" data-intent="consultation">咨询</span>
+            <span class="intent-chip" data-intent="diagnosis">诊断</span>
+            <span class="intent-chip" data-intent="chitchat">闲聊</span>
+          </div>
+          <div class="intent-meta" id="intentMeta"></div>
+        </div>
+
+        <div class="chat" id="chatScroll">
+          <div class="chat-inner" id="chatList">
+            <!-- 欢迎卡 -->
+            <article class="msg assistant welcome">
+              <div class="msg-body">
+                <p class="welcome-kicker">门诊一站式助手</p>
+                <h1>您好，我可以帮您完成这些事</h1>
+                <ul class="welcome-list">
+                  <li><b>预约挂号</b> — 「我想预约明天看内科」</li>
+                  <li><b>排队叫号</b> — 「帮我取个号」</li>
+                  <li><b>医疗咨询</b> — 「高血压是什么病？」</li>
+                  <li><b>症状诊断</b> — 「我最近总是头晕恶心」</li>
+                </ul>
+                <div class="quick-prompts" id="quickPrompts">
+                  <button type="button" class="chip" data-q="我想预约明天看内科">预约内科</button>
+                  <button type="button" class="chip" data-q="帮我取个号，科室是内科">内科取号</button>
+                  <button type="button" class="chip" data-q="高血压是什么病？">高血压咨询</button>
+                  <button type="button" class="chip" data-q="我最近总是头晕，还恶心，已经一周了">症状分析</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <form class="composer" id="chatForm" autocomplete="off">
+          <label class="sr-only" for="chatInput">输入消息</label>
+          <textarea
+            id="chatInput"
+            rows="1"
+            placeholder="描述您的需求，例如：我想预约明天看内科…"
+            maxlength="2000"
+          ></textarea>
+          <button type="submit" class="btn primary" id="btnSend">发送</button>
+        </form>
+      </main>
+
+      <!-- 右：业务上下文 -->
+      <aside class="context" aria-label="业务面板">
+        <section class="panel">
+          <header class="panel-head">
+            <h2>排班查询</h2>
+            <span class="panel-hint">演示数据</span>
+          </header>
+          <form class="panel-form" id="scheduleForm">
+            <label>
+              <span>科室</span>
+              <select id="scheduleDept" required></select>
+            </label>
+            <label>
+              <span>日期</span>
+              <input type="date" id="scheduleDate" />
+            </label>
+            <button type="submit" class="btn secondary">查询排班</button>
+          </form>
+          <div class="panel-body" id="scheduleResult">
+            <p class="empty">选择科室后查询今日排班。</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <h2>快速取号</h2>
+          </header>
+          <form class="panel-form" id="queueForm">
+            <label>
+              <span>科室</span>
+              <select id="queueDept" required></select>
+            </label>
+            <label>
+              <span>姓名</span>
+              <input type="text" id="queueName" placeholder="张三" required maxlength="20" />
+            </label>
+            <button type="submit" class="btn secondary">取号</button>
+          </form>
+          <div class="panel-body" id="queueResult">
+            <p class="empty">取号后可在此查看号序与等待时间。</p>
+          </div>
+        </section>
+
+        <section class="panel compact">
+          <header class="panel-head">
+            <h2>诊断采集进度</h2>
+          </header>
+          <div class="progress-list" id="diagProgress">
+            <div class="progress-item" data-field="main_symptom">
+              <span>主诉症状</span><i></i>
+            </div>
+            <div class="progress-item" data-field="duration">
+              <span>持续时间</span><i></i>
+            </div>
+            <div class="progress-item" data-field="symptom_features">
+              <span>症状特点</span><i></i>
+            </div>
+            <div class="progress-item" data-field="accompanying">
+              <span>伴随症状</span><i></i>
+            </div>
+          </div>
+          <p class="empty small" id="diagHint">开始症状诊断后，这里会显示已收集信息。</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden role="status"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

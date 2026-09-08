@@ -18,7 +18,7 @@ class DiagnosisAgent(BaseAgent):
         self.collected_info: dict = {}
         self.round_count: int = 0
 
-    def process(self, user_message: str, extracted_info: dict = None) -> str:
+    def process(self, user_message: str, extracted_info: dict = None, echo: bool = True) -> str:
         self.round_count += 1
 
         if extracted_info:
@@ -28,9 +28,9 @@ class DiagnosisAgent(BaseAgent):
         missing = self._get_missing_info()
 
         if self.round_count >= 3 and self.collected_info.get("main_symptom"):
-            return self._generate_diagnosis()
+            return self._generate_diagnosis(echo=echo)
         elif not missing and self.collected_info.get("main_symptom"):
-            return self._generate_diagnosis()
+            return self._generate_diagnosis(echo=echo)
 
         context = ""
         if self.collected_info:
@@ -42,7 +42,7 @@ class DiagnosisAgent(BaseAgent):
             if rag_context:
                 context += f"\n\n相关医学知识：\n{rag_context}"
 
-        return self.chat_stream(user_message, extra_context=context, temperature=0.6)
+        return self.chat_stream(user_message, extra_context=context, temperature=0.6, echo=echo)
 
     def _extract_info_from_message(self, message: str):
         msg = message.lower()
@@ -84,7 +84,7 @@ class DiagnosisAgent(BaseAgent):
     def _get_missing_info(self) -> list[str]:
         return [f for f in self.REQUIRED_INFO if f not in self.collected_info]
 
-    def _generate_diagnosis(self) -> str:
+    def _generate_diagnosis(self, echo: bool = True) -> str:
         symptom_info = ""
         if self.collected_info.get("main_symptom"):
             result = symptom_tool.lookup_symptom(self.collected_info["main_symptom"])
@@ -109,7 +109,7 @@ class DiagnosisAgent(BaseAgent):
 
 请按照诊断分析报告格式输出。"""
 
-        response = self.chat_stream(diagnosis_request, temperature=0.5)
+        response = self.chat_stream(diagnosis_request, temperature=0.5, echo=echo)
         self._reset_state()
         return response
 

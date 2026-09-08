@@ -96,8 +96,19 @@ class MedicalSystem:
 
         return chunks
 
-    def process_message(self, user_message: str):
-        """处理用户消息（Agent通过流式直接打印，闲聊/澄清通过print输出）。"""
+    def process_message(self, user_message: str, echo: bool = True) -> dict:
+        """处理用户消息，返回结构化结果。
+
+        Returns:
+            {
+                "reply": str,
+                "intent": str,
+                "confidence": float,
+                "agent": str|None,
+                "needs_clarification": bool,
+                "extracted_info": dict,
+            }
+        """
         # 如果当前有活跃Agent且正在进行多轮对话，继续由该Agent处理
         if self.current_agent and self.current_agent in ["diagnosis"]:
             agent = self.agents[self.current_agent]
@@ -108,8 +119,17 @@ class MedicalSystem:
                 self.current_agent = None
                 self.agents["diagnosis"]._reset_state()
             else:
-                agent.process(user_message, intent_check.get("extracted_info", {}))
-                return
+                reply = agent.process(user_message, intent_check.get("extracted_info", {}), echo=echo)
+                return {
+                    "reply": reply,
+                    "intent": "diagnosis",
+                    "confidence": intent_check.get("confidence", 0.8),
+                    "agent": "DiagnosisAgent",
+                    "needs_clarification": False,
+                    "extracted_info": intent_check.get("extracted_info", {}),
+                    "collected_info": dict(agent.collected_info),
+                    "round_count": agent.round_count,
+                }
 
         # Router分析意图
         route_result = self.router.classify_intent(user_message)
@@ -117,32 +137,72 @@ class MedicalSystem:
         needs_clarification = route_result.get("needs_clarification", False)
         clarification_question = route_result.get("clarification_question")
         extracted_info = route_result.get("extracted_info", {})
+        confidence = route_result.get("confidence", 0)
 
-        # 需要澄清
-        if needs_clarification and clarification_question:
-            print(f"\n[助手] {clarification_question}")
-            return
+        # 需要澄清（诊断类交给 DiagnosisAgent 多轮追问，不在此拦截）
+        if needs_clarification and clarification_question and intent != "diagnosis":
+            if echo:
+                print(f"\n[助手] {clarification_question}")
+            return {
+                "reply": clarification_question,
+                "intent": intent,
+                "confidence": confidence,
+                "agent": None,
+                "needs_clarification": True,
+                "extracted_info": extracted_info,
+            }
 
         # 闲聊
         if intent == "chitchat":
-            print(f"\n[助手] {self._handle_chitchat(user_message)}")
-            return
+            reply = self._handle_chitchat(user_message)
+            if echo:
+                print(f"\n[助手] {reply}")
+            return {
+                "reply": reply,
+                "intent": "chitchat",
+                "confidence": confidence,
+                "agent": None,
+                "needs_clarification": False,
+                "extracted_info": extracted_info,
+            }
 
         # 路由到对应Agent
         agent = self.agents.get(intent)
         if not agent:
-            print("\n[助手] 抱歉，我暂时无法处理这类请求。请问您需要预约挂号、排队叫号、医疗咨询还是症状诊断服务？")
-            return
+            fallback = "抱歉，我暂时无法处理这类请求。请问您需要预约挂号、排队叫号、医疗咨询还是症状诊断服务？"
+            if echo:
+                print(f"\n[助手] {fallback}")
+            return {
+                "reply": fallback,
+                "intent": intent,
+                "confidence": confidence,
+                "agent": None,
+                "needs_clarification": False,
+                "extracted_info": extracted_info,
+            }
 
         # 设置当前活跃Agent（用于多轮对话）
         if intent == "diagnosis":
             self.current_agent = "diagnosis"
 
-        # 调用Agent处理（内部流式输出）
+        # 调用Agent处理
         if intent in ("appointment", "queue"):
-            agent.process(user_message, extracted_info)
+            reply = agent.process(user_message, extracted_info, echo=echo)
         else:
-            agent.process(user_message)
+            reply = agent.process(user_message, echo=echo)
+
+        result = {
+            "reply": reply,
+            "intent": intent,
+            "confidence": confidence,
+            "agent": agent.name,
+            "needs_clarification": False,
+            "extracted_info": extracted_info,
+        }
+        if intent == "diagnosis":
+            result["collected_info"] = dict(agent.collected_info)
+            result["round_count"] = agent.round_count
+        return result
 
     @staticmethod
     def _handle_chitchat(user_message: str) -> str:
@@ -224,8 +284,8 @@ def main():
             print("[系统] 对话已重置。")
             continue
 
-        # 处理用户消息（Agent内部已流式输出）
-        system.process_message(user_input)
+        # 处理用户消息
+        system.process_message(user_input, echo=True)
 
 
 if __name__ == "__main__":

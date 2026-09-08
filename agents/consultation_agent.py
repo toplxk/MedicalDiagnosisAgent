@@ -10,11 +10,10 @@ class ConsultationAgent(BaseAgent):
     def __init__(self):
         super().__init__(name="ConsultationAgent", prompt_file="consultation_agent.txt")
 
-    def process(self, user_message: str) -> str:
+    def process(self, user_message: str, echo: bool = True) -> str:
         rag_result = retrieve(user_message)
         context = rag_result.get("context", "")
 
         if context:
-            return self.chat_stream(user_message, extra_context=context, temperature=0.7)
-        else:
-            return self.chat_stream(user_message, temperature=0.7)
+            return self.chat_stream(user_message, extra_context=context, temperature=0.7, echo=echo)
+        return self.chat_stream(user_message, temperature=0.7, echo=echo)

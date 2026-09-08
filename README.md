@@ -2,6 +2,8 @@
 
 基于大语言模型的智能医疗诊断多Agent系统，通过自然语言对话为患者提供预约挂号、排队叫号、医疗咨询、症状诊断等一站式医疗服务。
 
+支持 **CLI** 与 **Web 工作台（FastAPI + 前端）** 两种交互方式。
+
 ## 功能概览
 
 | 功能 | 说明 | 示例 |
@@ -50,7 +52,15 @@
 
 ```
 MedicalDiagnosisAgent/
-├── main.py                     # 系统入口，MedicalSystem 类 + 交互循环
+├── main.py                     # 系统入口，MedicalSystem 类 + CLI 交互
+├── api/                        # FastAPI 接口层
+│   ├── server.py               # 路由、静态资源、RAG 启动
+│   ├── session.py              # 多会话状态管理
+│   └── schemas.py              # Pydantic 模型
+├── frontend/                   # Web 工作台前端
+│   ├── index.html
+│   ├── styles.css
+│   └── app.js
 ├── config.py                   # 全局配置（API Key、模型名、路径）
 ├── requirements.txt            # 依赖清单
 ├── .env                        # API 密钥（需自行配置）
@@ -116,13 +126,51 @@ DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
 
 ### 4. 启动系统
 
+**CLI：**
+
 ```bash
 python main.py
 ```
 
 首次启动会自动将 `data/medical_docs/` 下的医学文档加载到 ChromaDB 向量库，后续启动检测到已有数据则跳过。
 
-### 5. 交互命令
+**Web 工作台（推荐）：**
+
+```bash
+# 安装 Web 依赖（若尚未安装）
+pip install -r requirements.txt
+
+# 启动服务
+python -m api.server
+# 或
+uvicorn api.server:app --host 0.0.0.0 --port 8000
+```
+
+浏览器打开 http://127.0.0.1:8000 即可使用三栏导诊工作台：
+
+- 左：服务轨（对话 / 预约 / 排队 / 咨询 / 诊断）
+- 中：对话区 + 意图路由徽章
+- 右：排班查询、快速取号、诊断采集进度
+
+API 文档：http://127.0.0.1:8000/docs
+
+### 5. 主要 HTTP 接口
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| POST | `/api/chat` | 对话（自动意图路由） |
+| POST | `/api/session/reset` | 重置会话 |
+| GET | `/api/departments` | 科室列表 |
+| POST | `/api/schedule` | 查询排班 |
+| POST | `/api/appointments` | 创建预约 |
+| POST | `/api/appointments/query` | 查询预约 |
+| POST | `/api/appointments/cancel` | 取消预约 |
+| POST | `/api/queue/take` | 取号 |
+| GET | `/api/queue/{department}` | 队列状态 |
+| GET | `/api/health` | 健康检查 / RAG 状态 |
+| GET | `/api/symptoms` | 常见症状列表 |
+
+### 6. CLI 交互命令
 
 | 命令 | 说明 |
 |------|------|

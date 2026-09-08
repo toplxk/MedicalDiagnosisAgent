@@ -11,18 +11,18 @@ class QueueAgent(BaseAgent):
     def __init__(self):
         super().__init__(name="QueueAgent", prompt_file="queue_agent.txt")
 
-    def process(self, user_message: str, extracted_info: dict = None) -> str:
+    def process(self, user_message: str, extracted_info: dict = None, echo: bool = True) -> str:
         context = ""
         if extracted_info:
             context = f"从用户之前的消息中已提取到的信息：{json.dumps(extracted_info, ensure_ascii=False)}"
 
-        response = self.chat_stream(user_message, extra_context=context, temperature=0.5)
+        response = self.chat_stream(user_message, extra_context=context, temperature=0.5, echo=echo)
 
         tool_call = self._extract_tool_call(response)
         if tool_call:
             result = queue_tool.execute(tool_call["action"], tool_call["params"])
             tool_feedback = f"工具执行结果：{json.dumps(result, ensure_ascii=False)}"
-            return self.chat_stream(tool_feedback, temperature=0.5)
+            return self.chat_stream(tool_feedback, temperature=0.5, echo=echo)
 
         return response
 
