@@ -1,0 +1,8 @@
+﻿id,text,gold_intent,pred_intent,confidence,difficulty,edge_case_type,needs_clarification,clarification_question,pred_extracted_info
+appt_032,孩子发烧了，想带他去医院看看,appointment,diagnosis,0.85,hard,multi_intent,True,孩子多大了？体温多少度？发烧多久了？有没有其他症状？,"{""symptom"": ""发烧"", ""patient"": ""孩子""}"
+queue_030,下午能排上吗,queue,appointment,0.5,medium,implicit_keyword,True,请问您是想预约下午的号，还是想问下午排队叫号的情况？,"{""时间"": ""下午""}"
+cons_033,头疼挂神经内科对吗,consultation,appointment,0.9,hard,ambiguous_with_appointment,False,,"{""symptom"": ""头疼"", ""department"": ""神经内科""}"
+chat_021,医院几点关门,chitchat,consultation,0.95,medium,out_of_domain,False,,"{""query_type"": ""营业时间"", ""detail"": ""医院关门时间""}"
+chat_022,你们医院在哪里,chitchat,consultation,0.7,medium,out_of_domain,False,,"{""query_type"": ""hospital_location"", ""original_input"": ""你们医院在哪里""}"
+chat_023,今天吃什么好,chitchat,consultation,0.3,medium,out_of_domain,True,请问您是想了解健康饮食建议，还是有其他医疗需求？,{}
+chat_037,我没有不舒服，就是问问诊断流程,chitchat,consultation,0.95,adversarial,negation,False,,"{""query"": ""诊断流程""}"

@@ -1,0 +1,522 @@
+{
+  "common_diseases.txt_0": {
+    "document": "【常见疾病介绍】\n# 高血压\n高血压是一种以动脉血压持续升高为主要特征的慢性疾病，是最常见的心血管疾病之一。",
+    "source": "common_diseases.txt",
+    "chunk_index": 0
+  },
+  "common_diseases.txt_1": {
+    "document": "**诊断标准：**\n在未使用降压药物的情况下，非同日3次测量血压，收缩压≥140mmHg和/或舒张压≥90mmHg。",
+    "source": "common_diseases.txt",
+    "chunk_index": 1
+  },
+  "common_diseases.txt_2": {
+    "document": "**分类：**\n- 1级高血压（轻度）：收缩压140-159mmHg 和/或 舒张压90-99mmHg\n- 2级高血压（中度）：收缩压160-179mmHg 和/或 舒张压100-109mmHg\n- 3级高血压（重度）：收缩压≥180mmHg 和/或 舒张压≥110mmHg",
+    "source": "common_diseases.txt",
+    "chunk_index": 2
+  },
+  "common_diseases.txt_3": {
+    "document": "**常见症状：** 头痛、头晕、耳鸣、心悸、疲劳、注意力不集中。很多患者早期无明显症状。\n**危害：** 长期高血压可导致心、脑、肾等重要器官损害，引发冠心病、脑卒中、肾功能衰竭等严重并发症。",
+    "source": "common_diseases.txt",
+    "chunk_index": 3
+  },
+  "common_diseases.txt_4": {
+    "document": "**治疗：** 生活方式干预（低盐饮食、适量运动、控制体重、戒烟限酒）+ 药物治疗（遵医嘱）。\n**建议就诊科室：** 心内科",
+    "source": "common_diseases.txt",
+    "chunk_index": 4
+  },
+  "common_diseases.txt_5": {
+    "document": "---\n# 糖尿病\n糖尿病是由胰岛素分泌缺陷或其生物作用障碍引起的以高血糖为特征的代谢性疾病。\n**分型：**\n- 1型糖尿病：多在青少年时期发病，胰岛β细胞破坏导致胰岛素绝对缺乏\n- 2型糖尿病：最常见类型，占90%以上，以胰岛素抵抗为主\n- 妊娠糖尿病：妊娠期间首次发现的糖耐量异常",
+    "source": "common_diseases.txt",
+    "chunk_index": 5
+  },
+  "common_diseases.txt_6": {
+    "document": "**诊断标准：**\n- 空腹血糖 ≥ 7.0 mmol/L\n- 餐后2小时血糖 ≥ 11.1 mmol/L\n- 糖化血红蛋白(HbA1c) ≥ 6.5%",
+    "source": "common_diseases.txt",
+    "chunk_index": 6
+  },
+  "common_diseases.txt_7": {
+    "document": "**典型症状：** \"三多一少\"——多饮、多尿、多食、体重减少。\n**并发症：** 糖尿病视网膜病变、糖尿病肾病、糖尿病足、心血管疾病、周围神经病变。",
+    "source": "common_diseases.txt",
+    "chunk_index": 7
+  },
+  "common_diseases.txt_8": {
+    "document": "**治疗：** 饮食控制、运动疗法、药物治疗、血糖监测、健康教育（五驾马车）。\n**建议就诊科室：** 内分泌科",
+    "source": "common_diseases.txt",
+    "chunk_index": 8
+  },
+  "common_diseases.txt_9": {
+    "document": "---\n# 冠心病\n冠心病全称冠状动脉粥样硬化性心脏病，是冠状动脉血管发生动脉粥样硬化病变而引起血管腔狭窄或阻塞，造成心肌缺血、缺氧或坏死。",
+    "source": "common_diseases.txt",
+    "chunk_index": 9
+  },
+  "common_diseases.txt_10": {
+    "document": "**危险因素：** 高血压、高血脂、糖尿病、吸烟、肥胖、家族史、年龄（男性>45岁，女性>55岁）。",
+    "source": "common_diseases.txt",
+    "chunk_index": 10
+  },
+  "common_diseases.txt_11": {
+    "document": "**症状：**\n- 典型症状：胸骨后压榨性疼痛，可放射至左肩、左臂\n- 持续时间：一般3-5分钟，不超过15分钟\n- 诱因：体力活动、情绪激动、饱食、寒冷\n- 缓解方式：休息或含服硝酸甘油",
+    "source": "common_diseases.txt",
+    "chunk_index": 11
+  },
+  "common_diseases.txt_12": {
+    "document": "**急性发作：** 心绞痛发作时应立即停止活动，舌下含服硝酸甘油。如持续不缓解（>15分钟），应立即拨打120。",
+    "source": "common_diseases.txt",
+    "chunk_index": 12
+  },
+  "common_diseases.txt_13": {
+    "document": "**建议就诊科室：** 心内科\n---\n# 胃炎\n胃炎是胃黏膜的炎症性疾病，分为急性胃炎和慢性胃炎。",
+    "source": "common_diseases.txt",
+    "chunk_index": 13
+  },
+  "common_diseases.txt_14": {
+    "document": "**急性胃炎：**\n- 常见原因：药物（NSAIDs）、酒精、应激、感染\n- 症状：上腹痛、恶心、呕吐、食欲减退\n- 治疗：去除病因、保护胃黏膜、对症治疗",
+    "source": "common_diseases.txt",
+    "chunk_index": 14
+  },
+  "common_diseases.txt_15": {
+    "document": "**慢性胃炎：**\n- 最常见原因：幽门螺杆菌(Hp)感染\n- 症状：上腹不适、嗳气、反酸、餐后饱胀\n- 诊断：胃镜检查 + Hp检测\n- 治疗：根除Hp（三联/四联疗法）+ 胃黏膜保护 + 生活调理",
+    "source": "common_diseases.txt",
+    "chunk_index": 15
+  },
+  "common_diseases.txt_16": {
+    "document": "**建议就诊科室：** 消化内科\n---\n# 感冒（普通感冒）\n普通感冒是由病毒引起的上呼吸道感染，是最常见的急性呼吸道疾病。",
+    "source": "common_diseases.txt",
+    "chunk_index": 16
+  },
+  "common_diseases.txt_17": {
+    "document": "**常见症状：** 鼻塞、流涕、打喷嚏、咽痛、咳嗽、低热、头痛、全身酸痛。\n**病程：** 一般5-7天可自愈，少数可持续2周。",
+    "source": "common_diseases.txt",
+    "chunk_index": 17
+  },
+  "common_diseases.txt_18": {
+    "document": "**治疗：**\n- 多休息、多饮水\n- 对症治疗：退热（布洛芬/对乙酰氨基酚）、缓解鼻塞（伪麻黄碱）\n- 抗生素对普通感冒无效，不建议使用",
+    "source": "common_diseases.txt",
+    "chunk_index": 18
+  },
+  "common_diseases.txt_19": {
+    "document": "**与流感的区别：** 流感起病急、全身症状重（高热、全身酸痛、乏力），传染性强，需要抗病毒治疗。\n**建议就诊科室：** 呼吸内科 / 普通内科",
+    "source": "common_diseases.txt",
+    "chunk_index": 19
+  },
+  "common_diseases.txt_20": {
+    "document": "---\n# 颈椎病\n颈椎病是因颈椎退行性变引起颈椎管或椎间孔变形、狭窄，刺激、压迫颈部脊髓、神经根、交感神经、血管而产生一系列症状和体征的综合征。",
+    "source": "common_diseases.txt",
+    "chunk_index": 20
+  },
+  "common_diseases.txt_21": {
+    "document": "**分型：**\n- 神经根型：最常见，表现为颈肩痛、上肢麻木\n- 脊髓型：最严重，表现为四肢无力、行走不稳\n- 椎动脉型：头晕、头痛、转头时加重\n- 交感神经型：心悸、出汗、视力模糊",
+    "source": "common_diseases.txt",
+    "chunk_index": 21
+  },
+  "common_diseases.txt_22": {
+    "document": "**常见诱因：** 长期伏案工作、低头看手机、睡姿不良、颈部受凉。\n**治疗：**\n- 轻度：改善生活习惯、颈部锻炼、理疗、药物（消炎止痛、肌肉松弛）\n- 重度：可能需要手术治疗",
+    "source": "common_diseases.txt",
+    "chunk_index": 22
+  },
+  "common_diseases.txt_23": {
+    "document": "**建议就诊科室：** 骨科 / 脊柱外科\n---\n# 抑郁症\n抑郁症是一种常见的精神障碍，以显著而持久的心境低落为主要临床特征。",
+    "source": "common_diseases.txt",
+    "chunk_index": 23
+  },
+  "common_diseases.txt_24": {
+    "document": "**核心症状（持续2周以上）：**\n- 情绪低落、兴趣减退、快感缺失\n- 思维迟缓、注意力下降\n- 睡眠障碍（失眠或嗜睡）\n- 食欲改变（减退或增加）\n- 疲劳感、精力下降\n- 自我评价降低、自责、无望感\n- 严重者有自杀想法或行为",
+    "source": "common_diseases.txt",
+    "chunk_index": 24
+  },
+  "common_diseases.txt_25": {
+    "document": "**治疗：**\n- 药物治疗：抗抑郁药物（SSRIs类为一线用药）\n- 心理治疗：认知行为治疗(CBT)、人际关系治疗等\n- 物理治疗：经颅磁刺激、电休克治疗（严重者）",
+    "source": "common_diseases.txt",
+    "chunk_index": 25
+  },
+  "common_diseases.txt_26": {
+    "document": "**重要提醒：** 抑郁症是疾病，不是\"想不开\"，需要专业治疗。如发现自己或家人有上述症状，请及时就医。",
+    "source": "common_diseases.txt",
+    "chunk_index": 26
+  },
+  "department_guide.txt_0": {
+    "document": "【科室导诊指南 - 帮助您选择合适的就诊科室】\n# 内科系统\n## 普通内科/全科\n- 适用：不确定挂什么科、多种症状混合、常见病初诊\n- 常见疾病：感冒发烧、高血压初诊、糖尿病初诊、乏力、消瘦查因",
+    "source": "department_guide.txt",
+    "chunk_index": 0
+  },
+  "department_guide.txt_1": {
+    "document": "## 心内科（心血管内科）\n- 适用：心脏相关疾病\n- 常见症状：胸闷、胸痛、心悸、气短、心跳不规则\n- 常见疾病：冠心病、高血压、心律失常、心肌炎、心力衰竭",
+    "source": "department_guide.txt",
+    "chunk_index": 1
+  },
+  "department_guide.txt_2": {
+    "document": "## 呼吸内科\n- 适用：肺部和呼吸道疾病\n- 常见症状：咳嗽、咳痰、呼吸困难、胸痛、咯血\n- 常见疾病：感冒、支气管炎、肺炎、哮喘、慢阻肺、肺结核",
+    "source": "department_guide.txt",
+    "chunk_index": 2
+  },
+  "department_guide.txt_3": {
+    "document": "## 消化内科\n- 适用：胃肠道和肝胆疾病\n- 常见症状：腹痛、腹胀、恶心、呕吐、腹泻、便秘、反酸、黄疸\n- 常见疾病：胃炎、胃溃疡、肠炎、肝炎、胆囊炎、胰腺炎",
+    "source": "department_guide.txt",
+    "chunk_index": 3
+  },
+  "department_guide.txt_4": {
+    "document": "## 内分泌科\n- 适用：内分泌和代谢疾病\n- 常见症状：多饮多尿、体重异常变化、怕热多汗、颈部肿大\n- 常见疾病：糖尿病、甲状腺疾病、痛风、骨质疏松、肥胖症",
+    "source": "department_guide.txt",
+    "chunk_index": 4
+  },
+  "department_guide.txt_5": {
+    "document": "## 神经内科\n- 适用：神经系统疾病\n- 常见症状：头痛、头晕、肢体麻木、抽搐、意识障碍、失眠\n- 常见疾病：偏头痛、脑梗塞、脑出血、癫痫、帕金森病、失眠症",
+    "source": "department_guide.txt",
+    "chunk_index": 5
+  },
+  "department_guide.txt_6": {
+    "document": "## 肾内科\n- 适用：肾脏疾病\n- 常见症状：水肿、尿量异常、血尿、蛋白尿、腰痛\n- 常见疾病：肾炎、肾病综合征、肾功能不全、尿路感染",
+    "source": "department_guide.txt",
+    "chunk_index": 6
+  },
+  "department_guide.txt_7": {
+    "document": "## 血液内科\n- 适用：血液系统疾病\n- 常见症状：面色苍白、乏力、出血倾向、淋巴结肿大\n- 常见疾病：贫血、白血病、淋巴瘤、血小板减少症",
+    "source": "department_guide.txt",
+    "chunk_index": 7
+  },
+  "department_guide.txt_8": {
+    "document": "---\n# 外科系统\n## 普外科\n- 适用：腹部外科疾病\n- 常见疾病：阑尾炎、疝气、胆结石、甲状腺结节、乳腺疾病",
+    "source": "department_guide.txt",
+    "chunk_index": 8
+  },
+  "department_guide.txt_9": {
+    "document": "## 骨科\n- 适用：骨骼、关节、肌肉疾病\n- 常见症状：关节疼痛、腰背痛、骨折、肢体活动受限\n- 常见疾病：骨折、颈椎病、腰椎间盘突出、关节炎、骨质疏松",
+    "source": "department_guide.txt",
+    "chunk_index": 9
+  },
+  "department_guide.txt_10": {
+    "document": "## 神经外科\n- 适用：需要手术的神经系统疾病\n- 常见疾病：脑肿瘤、脑外伤、脑出血（需要手术者）、脊髓疾病",
+    "source": "department_guide.txt",
+    "chunk_index": 10
+  },
+  "department_guide.txt_11": {
+    "document": "## 泌尿外科\n- 适用：泌尿系统疾病\n- 常见症状：尿频、尿急、尿痛、血尿、排尿困难\n- 常见疾病：肾结石、前列腺增生、尿路感染、泌尿系统肿瘤",
+    "source": "department_guide.txt",
+    "chunk_index": 11
+  },
+  "department_guide.txt_12": {
+    "document": "## 胸外科\n- 适用：胸部外科疾病\n- 常见疾病：肺结节、气胸、食管疾病、纵隔肿瘤\n---\n# 妇产科",
+    "source": "department_guide.txt",
+    "chunk_index": 12
+  },
+  "department_guide.txt_13": {
+    "document": "## 妇科\n- 适用：女性生殖系统疾病\n- 常见症状：月经异常、白带异常、下腹痛、外阴瘙痒\n- 常见疾病：阴道炎、子宫肌瘤、卵巢囊肿、子宫内膜异位症、宫颈疾病",
+    "source": "department_guide.txt",
+    "chunk_index": 13
+  },
+  "department_guide.txt_14": {
+    "document": "## 产科\n- 适用：孕产期保健\n- 常见情况：产前检查、妊娠并发症、分娩、产后恢复\n---\n# 其他科室",
+    "source": "department_guide.txt",
+    "chunk_index": 14
+  },
+  "department_guide.txt_15": {
+    "document": "## 儿科\n- 适用：14岁以下儿童疾病\n- 常见疾病：小儿感冒、发热、腹泻、哮喘、手足口病\n## 眼科\n- 适用：眼部疾病\n- 常见症状：视力下降、眼红、眼痛、流泪、飞蚊症\n- 常见疾病：近视、白内障、青光眼、结膜炎、干眼症",
+    "source": "department_guide.txt",
+    "chunk_index": 15
+  },
+  "department_guide.txt_16": {
+    "document": "## 耳鼻喉科\n- 适用：耳鼻喉疾病\n- 常见症状：耳鸣、听力下降、鼻塞、流鼻血、咽痛、声音嘶哑\n- 常见疾病：中耳炎、鼻炎、鼻窦炎、扁桃体炎、声带息肉",
+    "source": "department_guide.txt",
+    "chunk_index": 16
+  },
+  "department_guide.txt_17": {
+    "document": "## 皮肤科\n- 适用：皮肤疾病\n- 常见症状：皮疹、瘙痒、脱发、色素异常\n- 常见疾病：湿疹、荨麻疹、痤疮、银屑病、带状疱疹、真菌感染",
+    "source": "department_guide.txt",
+    "chunk_index": 17
+  },
+  "department_guide.txt_18": {
+    "document": "## 口腔科\n- 适用：口腔疾病\n- 常见症状：牙痛、牙龈出血、口腔溃疡\n- 常见疾病：龋齿、牙周炎、智齿冠周炎、口腔溃疡",
+    "source": "department_guide.txt",
+    "chunk_index": 18
+  },
+  "department_guide.txt_19": {
+    "document": "## 精神科/心理科\n- 适用：精神心理疾病\n- 常见症状：情绪低落、焦虑、失眠、幻觉、妄想\n- 常见疾病：抑郁症、焦虑症、精神分裂症、双相障碍、失眠症",
+    "source": "department_guide.txt",
+    "chunk_index": 19
+  },
+  "department_guide.txt_20": {
+    "document": "## 中医科\n- 适用：中医诊疗、调理\n- 常见情况：慢性病调理、亚健康状态、体质辨识、针灸推拿\n## 急诊科\n- 适用：紧急情况、急危重症\n- 就诊指征：高热不退、剧烈疼痛、呼吸困难、大量出血、意识障碍、严重外伤",
+    "source": "department_guide.txt",
+    "chunk_index": 20
+  },
+  "department_guide.txt_21": {
+    "document": "---\n# 导诊小贴士\n1. 不确定挂什么科？先挂普通内科或全科\n2. 急性发作或症状严重？直接去急诊\n3. 有多种慢性病？先处理最紧急的\n4. 复诊患者建议挂同一科室、同一医生\n5. 看病前准备好：既往病历、检查报告、目前用药清单",
+    "source": "department_guide.txt",
+    "chunk_index": 21
+  },
+  "health_tips.txt_0": {
+    "document": "【健康科普知识】\n# 饮食健康\n## 合理膳食原则\n- 食物多样，谷类为主：每天摄入12种以上食物，每周25种以上\n- 多吃蔬果：每天蔬菜300-500g，水果200-350g\n- 适量蛋白质：鱼、禽、蛋、瘦肉适量\n- 少盐少油：每天盐<6g，油<25g\n- 限制糖分：每天添加糖<25g",
+    "source": "health_tips.txt",
+    "chunk_index": 0
+  },
+  "health_tips.txt_1": {
+    "document": "## 常见饮食误区\n- ❌ \"喝粥养胃\"：长期喝粥反而使胃功能退化\n- ❌ \"骨头汤补钙\"：骨头汤含钙量极低，脂肪含量高\n- ❌ \"鸡蛋吃多了胆固醇高\"：正常人每天1-2个鸡蛋是安全的\n- ❌ \"水果代替正餐减肥\"：水果含糖量高，长期可能营养不良",
+    "source": "health_tips.txt",
+    "chunk_index": 1
+  },
+  "health_tips.txt_2": {
+    "document": "---\n# 运动健康\n## 运动建议\n- 成年人每周至少150分钟中等强度有氧运动\n- 或每周75分钟高强度有氧运动\n- 每周2次以上肌肉力量训练",
+    "source": "health_tips.txt",
+    "chunk_index": 2
+  },
+  "health_tips.txt_3": {
+    "document": "## 运动注意事项\n- 运动前热身5-10分钟\n- 运动后拉伸放松\n- 循序渐进，避免突然大量运动\n- 空腹运动容易低血糖，不建议\n- 饭后1小时再运动\n- 运动中感到胸痛、头晕应立即停止",
+    "source": "health_tips.txt",
+    "chunk_index": 3
+  },
+  "health_tips.txt_4": {
+    "document": "## 不同人群运动建议\n- 老年人：太极拳、散步、游泳（避免剧烈运动）\n- 办公室人群：每坐1小时起来活动5分钟\n- 孕妇：散步、孕妇瑜伽（遵医嘱）",
+    "source": "health_tips.txt",
+    "chunk_index": 4
+  },
+  "health_tips.txt_5": {
+    "document": "---\n# 睡眠健康\n## 睡眠建议\n- 成人每天7-9小时睡眠\n- 最佳入睡时间：晚上10-11点\n- 保持规律作息，周末也不要晚起超过1小时",
+    "source": "health_tips.txt",
+    "chunk_index": 5
+  },
+  "health_tips.txt_6": {
+    "document": "## 改善睡眠的方法\n1. 睡前1小时远离电子屏幕\n2. 睡前避免咖啡因（下午2点后不喝咖啡/浓茶）\n3. 保持卧室温度在18-22°C\n4. 卧室只用于睡觉，不在床上工作/看手机\n5. 睡前可以泡脚、听轻音乐、做呼吸练习",
+    "source": "health_tips.txt",
+    "chunk_index": 6
+  },
+  "health_tips.txt_7": {
+    "document": "---\n# 心理健康\n## 压力管理\n- 学会说\"不\"，不过度承担\n- 定期运动有助于释放压力\n- 与亲友倾诉交流\n- 培养兴趣爱好\n- 必要时寻求专业心理咨询",
+    "source": "health_tips.txt",
+    "chunk_index": 7
+  },
+  "health_tips.txt_8": {
+    "document": "## 焦虑的自我调节\n1. 深呼吸：4秒吸气-7秒屏气-8秒呼气\n2. 正念冥想：专注于当下的感受\n3. 渐进性肌肉放松：从脚到头逐步放松各肌肉群\n4. 认知重构：质疑不合理的担忧",
+    "source": "health_tips.txt",
+    "chunk_index": 8
+  },
+  "health_tips.txt_9": {
+    "document": "## 抑郁的早期识别\n- 持续2周以上的情绪低落\n- 对以前感兴趣的事失去兴趣\n- 睡眠和食欲明显改变\n- 注意力下降，难以做决定\n- 感到自己没有价值\n- 有自伤或自杀的想法\n如出现以上情况，请及时寻求专业帮助。全国心理援助热线：400-161-9995",
+    "source": "health_tips.txt",
+    "chunk_index": 9
+  },
+  "health_tips.txt_10": {
+    "document": "---\n# 体检常识\n## 基础体检项目\n- 血常规：检查贫血、感染、血液病\n- 尿常规：检查肾脏疾病、泌尿系统感染\n- 肝功能：检查肝脏疾病\n- 肾功能：检查肾脏功能\n- 血脂：评估心血管疾病风险\n- 血糖：筛查糖尿病\n- 心电图：检查心脏功能\n- 胸部X线：检查肺部疾病",
+    "source": "health_tips.txt",
+    "chunk_index": 10
+  },
+  "health_tips.txt_11": {
+    "document": "## 特殊人群增加项目\n- 40岁以上：增加肿瘤标志物、胃肠镜\n- 女性：乳腺超声、宫颈TCT/HPV\n- 男性：前列腺超声、PSA\n- 吸烟者：低剂量胸部CT",
+    "source": "health_tips.txt",
+    "chunk_index": 11
+  },
+  "health_tips.txt_12": {
+    "document": "## 体检频率\n- 20-30岁：每2年一次\n- 30-50岁：每年一次\n- 50岁以上：每年一次，可适当增加项目\n- 慢性病患者：遵医嘱定期复查",
+    "source": "health_tips.txt",
+    "chunk_index": 12
+  },
+  "health_tips.txt_13": {
+    "document": "---\n# 急救常识\n## 心肺复苏（CPR）基本步骤\n1. 确认环境安全\n2. 判断意识：拍打肩膀，大声呼唤\n3. 呼叫120\n4. 胸外按压：\n- 位置：两乳头连线中点\n- 深度：5-6厘米\n- 频率：100-120次/分钟\n- 按压30次，人工呼吸2次\n5. 持续进行直到专业人员到达",
+    "source": "health_tips.txt",
+    "chunk_index": 13
+  },
+  "health_tips.txt_14": {
+    "document": "## 海姆立克急救法（气道异物梗阻）\n- 成人：站在患者身后，双手放在患者上腹部，快速向内向上冲击\n- 婴儿：面朝下放在前臂上，拍击背部5次，翻转后按压胸部5次",
+    "source": "health_tips.txt",
+    "chunk_index": 14
+  },
+  "health_tips.txt_15": {
+    "document": "## 烧烫伤处理\n- 冲：冷水冲洗15-20分钟\n- 脱：小心脱去衣物\n- 泡：冷水中浸泡\n- 盖：用干净纱布覆盖\n- 送：送医就诊",
+    "source": "health_tips.txt",
+    "chunk_index": 15
+  },
+  "medication_info.txt_0": {
+    "document": "【常见药物信息 - 仅供参考，用药请遵医嘱】\n# 降压药\n## 常用降压药物分类：\n**1. ACEI类（血管紧张素转化酶抑制剂）**\n- 代表药物：依那普利、贝那普利、培哚普利\n- 适用：高血压合并糖尿病、心衰、蛋白尿\n- 常见副作用：干咳（发生率约10-20%）、高血钾\n- 禁忌：妊娠、双侧肾动脉狭窄",
+    "source": "medication_info.txt",
+    "chunk_index": 0
+  },
+  "medication_info.txt_1": {
+    "document": "**2. ARB类（血管紧张素II受体拮抗剂）**\n- 代表药物：缬沙坦、厄贝沙坦、氯沙坦\n- 适用：不能耐受ACEI干咳的患者\n- 优点：降压效果好，干咳发生率低\n- 禁忌：妊娠",
+    "source": "medication_info.txt",
+    "chunk_index": 1
+  },
+  "medication_info.txt_2": {
+    "document": "**3. CCB类（钙通道阻滞剂）**\n- 代表药物：氨氯地平、硝苯地平控释片\n- 适用：老年高血压、单纯收缩期高血压\n- 常见副作用：踝部水肿、面部潮红、头痛",
+    "source": "medication_info.txt",
+    "chunk_index": 2
+  },
+  "medication_info.txt_3": {
+    "document": "**4. β受体阻滞剂**\n- 代表药物：美托洛尔、比索洛尔\n- 适用：高血压合并冠心病、心律失常、心衰\n- 常见副作用：心动过缓、乏力\n- 禁忌：哮喘、严重心动过缓",
+    "source": "medication_info.txt",
+    "chunk_index": 3
+  },
+  "medication_info.txt_4": {
+    "document": "**5. 利尿剂**\n- 代表药物：氢氯噻嗪、吲达帕胺\n- 适用：老年高血压、盐敏感性高血压\n- 常见副作用：低血钾、尿酸升高、血糖升高",
+    "source": "medication_info.txt",
+    "chunk_index": 4
+  },
+  "medication_info.txt_5": {
+    "document": "---\n# 降糖药\n**1. 二甲双胍**\n- 2型糖尿病一线用药\n- 机制：减少肝糖输出，增加外周组织对胰岛素的敏感性\n- 优点：不易引起低血糖，可减轻体重\n- 副作用：胃肠道反应（恶心、腹泻）\n- 禁忌：严重肾功能不全、严重肝功能不全",
+    "source": "medication_info.txt",
+    "chunk_index": 5
+  },
+  "medication_info.txt_6": {
+    "document": "**2. 磺脲类**\n- 代表药物：格列美脲、格列齐特\n- 机制：促进胰岛素分泌\n- 主要风险：低血糖\n- 注意：需规律进餐",
+    "source": "medication_info.txt",
+    "chunk_index": 6
+  },
+  "medication_info.txt_7": {
+    "document": "**3. α-糖苷酶抑制剂**\n- 代表药物：阿卡波糖（拜唐苹）\n- 机制：延缓碳水化合物吸收\n- 适用：以餐后血糖升高为主的患者\n- 用法：与第一口饭同服",
+    "source": "medication_info.txt",
+    "chunk_index": 7
+  },
+  "medication_info.txt_8": {
+    "document": "**4. SGLT-2抑制剂**\n- 代表药物：达格列净、恩格列净\n- 机制：促进尿糖排泄\n- 优点：有心血管和肾脏保护作用\n- 注意：可能引起泌尿生殖系统感染",
+    "source": "medication_info.txt",
+    "chunk_index": 8
+  },
+  "medication_info.txt_9": {
+    "document": "**5. GLP-1受体激动剂**\n- 代表药物：利拉鲁肽、司美格鲁肽\n- 机制：促进胰岛素分泌，抑制胰高糖素\n- 优点：降糖效果好，减轻体重，心血管获益\n- 用法：皮下注射",
+    "source": "medication_info.txt",
+    "chunk_index": 9
+  },
+  "medication_info.txt_10": {
+    "document": "---\n# 感冒药\n**1. 对乙酰氨基酚（扑热息痛）**\n- 功效：退热、止痛\n- 注意：每日最大剂量不超过2g，避免与其他含对乙酰氨基酚的药物同服\n- 禁忌：严重肝功能不全",
+    "source": "medication_info.txt",
+    "chunk_index": 10
+  },
+  "medication_info.txt_11": {
+    "document": "**2. 布洛芬**\n- 功效：退热、止痛、消炎\n- 注意：饭后服用，有胃溃疡史者慎用\n- 禁忌：活动性消化道溃疡、严重肝肾功能不全",
+    "source": "medication_info.txt",
+    "chunk_index": 11
+  },
+  "medication_info.txt_12": {
+    "document": "**3. 伪麻黄碱**\n- 功效：缓解鼻塞\n- 副作用：可能升高血压、引起失眠\n- 高血压患者慎用\n**4. 右美沙芬**\n- 功效：镇咳\n- 适用于干咳\n- 痰多时不宜使用（应先祛痰）",
+    "source": "medication_info.txt",
+    "chunk_index": 12
+  },
+  "medication_info.txt_13": {
+    "document": "**5. 氯苯那敏（扑尔敏）**\n- 功效：缓解流涕、打喷嚏\n- 副作用：嗜睡\n- 服药期间避免驾车",
+    "source": "medication_info.txt",
+    "chunk_index": 13
+  },
+  "medication_info.txt_14": {
+    "document": "---\n# 胃药\n**1. 质子泵抑制剂（PPI）**\n- 代表药物：奥美拉唑、兰索拉唑、雷贝拉唑\n- 功效：强效抑制胃酸分泌\n- 适用：胃溃疡、十二指肠溃疡、胃食管反流病\n- 用法：饭前30分钟服用",
+    "source": "medication_info.txt",
+    "chunk_index": 14
+  },
+  "medication_info.txt_15": {
+    "document": "**2. H2受体拮抗剂**\n- 代表药物：法莫替丁、雷尼替丁\n- 功效：抑制胃酸分泌（弱于PPI）\n- 用法：饭前或睡前服用",
+    "source": "medication_info.txt",
+    "chunk_index": 15
+  },
+  "medication_info.txt_16": {
+    "document": "**3. 胃黏膜保护剂**\n- 代表药物：硫糖铝、枸橼酸铋钾、铝碳酸镁\n- 功效：保护胃黏膜，中和胃酸\n- 用法：饭前1小时或睡前服用",
+    "source": "medication_info.txt",
+    "chunk_index": 16
+  },
+  "medication_info.txt_17": {
+    "document": "**4. 促胃肠动力药**\n- 代表药物：多潘立酮（吗丁啉）、莫沙必利\n- 功效：促进胃肠蠕动\n- 适用：腹胀、消化不良、反流\n- 用法：饭前15-30分钟服用",
+    "source": "medication_info.txt",
+    "chunk_index": 17
+  },
+  "medication_info.txt_18": {
+    "document": "---\n# 止痛药注意事项\n**1. 非甾体抗炎药（NSAIDs）**\n- 代表药物：布洛芬、双氯芬酸、塞来昔布\n- 注意事项：\n- 有胃肠道溃疡风险，应饭后服用\n- 长期使用需监测肝肾功能\n- 心血管疾病患者慎用\n- 不宜两种NSAIDs同时使用",
+    "source": "medication_info.txt",
+    "chunk_index": 18
+  },
+  "medication_info.txt_19": {
+    "document": "**2. 阿片类止痛药**\n- 代表药物：吗啡、曲马多、羟考酮\n- 适用：中重度疼痛、癌痛\n- 注意：有成瘾性，需严格遵医嘱使用\n- 常见副作用：便秘、恶心、嗜睡、呼吸抑制",
+    "source": "medication_info.txt",
+    "chunk_index": 19
+  },
+  "medication_info.txt_20": {
+    "document": "⚠️ 重要提醒：以上药物信息仅供参考。任何药物的使用都应在医生指导下进行，请勿自行购买处方药或调整用药方案。",
+    "source": "medication_info.txt",
+    "chunk_index": 20
+  },
+  "symptom_guide.txt_0": {
+    "document": "【症状指南 - 常见症状与可能原因】\n# 头痛\n**常见原因：**\n- 紧张性头痛：最常见，表现为双侧压迫感或紧箍感，与压力、疲劳、姿势不良有关\n- 偏头痛：反复发作的单侧搏动性头痛，常伴恶心、畏光、畏声\n- 颈源性头痛：由颈椎问题引起，从后枕部向前放射\n- 高血压性头痛：血压急剧升高时出现\n- 鼻窦炎：前额或面部疼痛，伴鼻塞",
+    "source": "symptom_guide.txt",
+    "chunk_index": 0
+  },
+  "symptom_guide.txt_1": {
+    "document": "**危险信号（需立即就医）：**\n- 突发剧烈头痛（\"有生以来最严重的头痛\"）\n- 头痛伴发热、颈项强直（可能是脑膜炎）\n- 头痛伴意识障碍、肢体无力（可能是脑出血/中风）\n- 头痛进行性加重伴呕吐（可能是颅内占位）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 1
+  },
+  "symptom_guide.txt_2": {
+    "document": "**建议科室：** 神经内科\n---\n# 胸痛\n**常见原因：**\n- 心源性：心绞痛、心肌梗死、心包炎\n- 肺源性：肺炎、胸膜炎、气胸、肺栓塞\n- 消化系统：胃食管反流、食管痉挛\n- 肌肉骨骼：肋间神经痛、胸壁损伤\n- 精神心理：焦虑症、惊恐发作",
+    "source": "symptom_guide.txt",
+    "chunk_index": 2
+  },
+  "symptom_guide.txt_3": {
+    "document": "**危险信号（需拨打120）：**\n- 胸骨后压榨性疼痛，持续>15分钟\n- 胸痛伴大汗、呼吸困难、濒死感\n- 胸痛放射至左臂、下颌\n- 突发尖锐胸痛伴呼吸困难（可能是气胸或肺栓塞）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 3
+  },
+  "symptom_guide.txt_4": {
+    "document": "**建议科室：** 急诊科 / 心内科\n---\n# 腹痛\n**按部位分析：**\n- 上腹中部：胃炎、胃溃疡、胰腺炎\n- 上腹右侧：胆囊炎、胆结石、肝炎\n- 上腹左侧：胃炎、脾脏疾病\n- 脐周：小肠疾病、肠梗阻、阑尾炎早期\n- 下腹右侧：阑尾炎、右输尿管结石\n- 下腹左侧：结肠疾病、左输尿管结石\n- 下腹中部：膀胱炎、子宫/前列腺疾病",
+    "source": "symptom_guide.txt",
+    "chunk_index": 4
+  },
+  "symptom_guide.txt_5": {
+    "document": "**危险信号：**\n- 剧烈腹痛伴腹肌紧张（可能是急腹症）\n- 腹痛伴呕血或便血\n- 腹痛伴休克症状（面色苍白、脉搏细弱）\n- 转移性右下腹痛（典型阑尾炎表现）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 5
+  },
+  "symptom_guide.txt_6": {
+    "document": "**建议科室：** 消化内科 / 急诊外科\n---\n# 咳嗽\n**按持续时间分类：**\n- 急性咳嗽（<3周）：感冒、急性支气管炎、异物吸入\n- 亚急性咳嗽（3-8周）：感染后咳嗽\n- 慢性咳嗽（>8周）：上气道咳嗽综合征、咳嗽变异性哮喘、胃食管反流性咳嗽、嗜酸性支气管炎",
+    "source": "symptom_guide.txt",
+    "chunk_index": 6
+  },
+  "symptom_guide.txt_7": {
+    "document": "**伴随症状分析：**\n- 咳嗽+黄痰：细菌感染\n- 咳嗽+白痰/清痰：病毒感染或过敏\n- 干咳：过敏、药物性（ACEI类降压药）、胃食管反流\n- 咳嗽+咯血：肺结核、支气管扩张、肺癌（需高度重视）\n- 夜间咳嗽加重：心衰、哮喘",
+    "source": "symptom_guide.txt",
+    "chunk_index": 7
+  },
+  "symptom_guide.txt_8": {
+    "document": "**建议科室：** 呼吸内科\n---\n# 发热\n**体温分级：**\n- 低热：37.3-38°C\n- 中等度热：38.1-39°C\n- 高热：39.1-41°C\n- 超高热：>41°C（紧急情况）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 8
+  },
+  "symptom_guide.txt_9": {
+    "document": "**常见原因：**\n- 感染性：细菌、病毒、真菌、寄生虫感染\n- 非感染性：自身免疫病、肿瘤、药物热、甲状腺功能亢进",
+    "source": "symptom_guide.txt",
+    "chunk_index": 9
+  },
+  "symptom_guide.txt_10": {
+    "document": "**发热伴皮疹的常见疾病：**\n- 麻疹：发热3-4天后出疹，从面部开始\n- 水痘：发热当天出疹，呈\"四世同堂\"（斑疹、丘疹、疱疹、结痂同时存在）\n- 猩红热：高热+全身弥漫性红色皮疹\n- 幼儿急疹：高热3-5天后热退疹出",
+    "source": "symptom_guide.txt",
+    "chunk_index": 10
+  },
+  "symptom_guide.txt_11": {
+    "document": "**就医建议：**\n- 低热持续>1周需就医\n- 体温>38.5°C可口服退热药（布洛芬/对乙酰氨基酚）\n- 婴幼儿体温>38°C应立即就医\n- 高热不退或伴精神萎靡需急诊",
+    "source": "symptom_guide.txt",
+    "chunk_index": 11
+  },
+  "symptom_guide.txt_12": {
+    "document": "---\n# 腰痛\n**常见原因：**\n- 腰肌劳损：最常见，与久坐、姿势不良有关\n- 腰椎间盘突出：腰痛+下肢放射痛（坐骨神经痛）\n- 肾结石：突发剧烈腰痛（肾绞痛），向会阴部放射\n- 肾盂肾炎：腰痛+发热+尿频尿急尿痛\n- 强直性脊柱炎：青年男性多见，晨僵，活动后改善\n- 骨质疏松性压缩骨折：老年人多见",
+    "source": "symptom_guide.txt",
+    "chunk_index": 12
+  },
+  "symptom_guide.txt_13": {
+    "document": "**危险信号：**\n- 腰痛伴大小便功能障碍（马尾综合征，需急诊手术）\n- 腰痛伴发热、体重下降（需排除肿瘤或感染）\n- 外伤后腰痛（需排除骨折）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 13
+  },
+  "symptom_guide.txt_14": {
+    "document": "**建议科室：** 骨科 / 泌尿外科\n---\n# 失眠\n**分类：**\n- 入睡困难：上床后超过30分钟无法入睡\n- 睡眠维持困难：夜间频繁觉醒或早醒\n- 睡眠质量差：虽然时间够但醒后仍感疲劳",
+    "source": "symptom_guide.txt",
+    "chunk_index": 14
+  },
+  "symptom_guide.txt_15": {
+    "document": "**常见原因：**\n- 心理因素：焦虑、抑郁、压力（最常见）\n- 不良睡眠习惯：作息不规律、睡前使用电子设备\n- 环境因素：噪音、光线、温度\n- 躯体疾病：疼痛、呼吸困难、夜尿\n- 药物因素：咖啡因、某些药物副作用",
+    "source": "symptom_guide.txt",
+    "chunk_index": 15
+  },
+  "symptom_guide.txt_16": {
+    "document": "**自我调理：**\n- 建立规律作息\n- 睡前避免咖啡、浓茶、酒精\n- 睡前1小时停止使用电子设备\n- 保持卧室安静、黑暗、凉爽\n- 适度运动（但避免睡前剧烈运动）",
+    "source": "symptom_guide.txt",
+    "chunk_index": 16
+  },
+  "symptom_guide.txt_17": {
+    "document": "**就医建议：** 持续失眠>1个月，严重影响日常生活时，建议就医。\n**建议科室：** 神经内科 / 睡眠医学科 / 心理科",
+    "source": "symptom_guide.txt",
+    "chunk_index": 17
+  }
+}

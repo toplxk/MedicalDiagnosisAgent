@@ -15,7 +15,22 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:python.langchain.com)",
       "Bash(pip index:*)",
-      "Bash(feishu fetch *)"
+      "Bash(feishu fetch *)",
+      "Bash(.venv/Scripts/python.exe eval/utils.py)",
+      "Bash(.venv/Scripts/python.exe -c ' *)",
+      "Bash(.venv/Scripts/python.exe eval/metrics/intent_metrics.py)",
+      "Bash(.venv/Scripts/python.exe eval/metrics/rag_metrics.py)",
+      "Bash(.venv/Scripts/python.exe eval/run_intent_eval.py --limit 10)",
+      "Bash(.venv/Scripts/python.exe -X utf8 -c ' *)",
+      "Bash(.venv/Scripts/python.exe -X utf8 eval/run_intent_eval.py --limit 10 --out-dir eval/reports/smoke)",
+      "Bash(.venv/Scripts/python.exe -X utf8 eval/run_intent_eval.py --out-dir eval/reports)",
+      "Bash(.venv/Scripts/python.exe -X utf8 eval/run_rag_eval.py --limit 5 --out-dir eval/reports/smoke)",
+      "Bash(.venv/Scripts/python.exe -X utf8 eval/run_rag_eval.py --out-dir eval/reports)",
+      "Skill(dataviz)",
+      "Bash(node scripts/validate_palette.js \"#2a78d6,#008300\" --mode light)",
+      "Bash(node scripts/validate_palette.js \"#3987e5,#008300\" --mode dark)",
+      "Bash(explorer.exe \"D:\\\\Work\\\\Projects\\\\Python\\\\MedicalDiagnosisAgent\\\\eval\\\\reports\\\\dashboard.html\")",
+      "Bash(cmd //c start \"\" \"D:\\\\Work\\\\Projects\\\\Python\\\\MedicalDiagnosisAgent\\\\eval\\\\reports\\\\dashboard.html\")"
     ]
   }
 }

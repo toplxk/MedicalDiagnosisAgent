@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医疗诊断多Agent系统 · 测评仪表盘</title>
+<style>
+  /* ---------- 设计令牌（dataviz 参考调色板） ---------- */
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --ink-primary:    #0b0b0b;
+    --ink-secondary:  #52514e;
+    --ink-muted:      #898781;
+    --grid:           #e1e0d9;
+    --axis:           #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;   /* blue  */
+    --series-2:       #008300;   /* green */
+    --good:           #0ca30c;
+    --warning:        #fab219;
+    --serious:        #ec835a;
+    --critical:       #d03b3b;
+    --delta-good:     #006300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --ink-primary:    #ffffff;
+      --ink-secondary:  #c3c2b7;
+      --ink-muted:      #898781;
+      --grid:           #2c2c2a;
+      --axis:           #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #008300;
+      --good:           #0ca30c;
+      --warning:        #fab219;
+      --serious:        #ec835a;
+      --critical:       #d03b3b;
+      --delta-good:     #0ca30c;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --ink-primary:    #ffffff;
+    --ink-secondary:  #c3c2b7;
+    --ink-muted:      #898781;
+    --grid:           #2c2c2a;
+    --axis:           #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #008300;
+    --good:           #0ca30c;
+    --warning:        #fab219;
+    --serious:        #ec835a;
+    --critical:       #d03b3b;
+    --delta-good:     #0ca30c;
+  }
+
+  /* ---------- 基架 ---------- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--page);
+    color: var(--ink-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.55;
+    padding: 40px 24px 64px;
+  }
+  .viz-root { max-width: 1120px; margin: 0 auto; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  header h1 { font-size: 22px; font-weight: 650; }
+  header .sub { color: var(--ink-secondary); font-size: 13px; margin-top: 4px; }
+  #themeToggle {
+    font: inherit; font-size: 12px; color: var(--ink-secondary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px; cursor: pointer; flex-shrink: 0;
+  }
+
+  .hero {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 28px 32px; margin-bottom: 20px;
+  }
+  .hero .label { font-size: 13px; color: var(--ink-secondary); }
+  .hero .value { font-size: 56px; font-weight: 650; letter-spacing: -0.02em; margin-top: 2px; }
+  .hero .note { font-size: 13px; color: var(--ink-secondary); margin-top: 8px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 36px; }
+  .kpi {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .kpi .label { font-size: 12px; color: var(--ink-secondary); }
+  .kpi .value { font-size: 30px; font-weight: 650; margin-top: 6px; }
+  .kpi .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; margin-top: 8px; font-weight: 600; }
+  .status .icon { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; color: #fff; flex-shrink: 0; }
+  .status.good    .icon { background: var(--good); }
+  .status.warning .icon { background: var(--warning); color: #1a1a19; }
+  .status.serious .icon { background: var(--serious); color: #1a1a19; }
+  .status.critical .icon { background: var(--critical); }
+  .status.good    { color: var(--good); }
+  .status.warning { color: var(--warning); }
+  .status.serious { color: var(--serious); }
+  .status.critical{ color: var(--critical); }
+  @media (prefers-color-scheme: dark) { :root:where(:not([data-theme="light"])) .viz-root .status.serious, :root:where(:not([data-theme="light"])) .viz-root .status.warning { color: var(--ink-primary); } }
+  :root[data-theme="dark"] .viz-root .status.serious, :root[data-theme="dark"] .viz-root .status.warning { color: var(--ink-primary); }
+
+  section { margin-bottom: 40px; }
+  section h2 { font-size: 16px; font-weight: 650; margin-bottom: 6px; }
+  section .desc { font-size: 13px; color: var(--ink-secondary); margin-bottom: 14px; }
+  .panel { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+
+  .grid-2 { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; }
+  @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ---------- 热力图 ---------- */
+  .heatmap-wrap { display: flex; gap: 18px; align-items: center; }
+  .heatmap { display: grid; gap: 2px; flex: 1; }                 /* 2px 表面间隙 */
+  .hm-cell {
+    aspect-ratio: 1.35; min-width: 52px; display: grid; place-items: center;
+    border-radius: 3px; font-size: 13px; cursor: default; position: relative;
+  }
+  .hm-cell.c0 { background: var(--hm-0); color: var(--hm-fg-ink); }
+  .hm-cell.c1 { background: var(--hm-1); color: var(--hm-fg-ink); }
+  .hm-cell.c2 { background: var(--hm-2); color: var(--hm-fg-ink); }
+  .hm-cell.c3 { background: var(--hm-3); color: var(--hm-fg-ink); }
+  .hm-cell.c4 { background: var(--hm-4); color: var(--hm-fg-white); }
+  .hm-cell.c5 { background: var(--hm-5); color: var(--hm-fg-white); }
+  .hm-cell.c6 { background: var(--hm-6); color: var(--hm-fg-white); }
+  .hm-cell.c7 { background: var(--hm-7); color: var(--hm-fg-white); }
+  .hm-cell:hover { outline: 2px solid var(--series-1); outline-offset: 1px; }
+  .hm-axis { display: grid; gap: 2px; }
+  .hm-axis .tick { aspect-ratio: 1.35; display: grid; place-items: center; font-size: 11px; color: var(--ink-muted); min-width: 52px; }
+  .hm-axis.col { grid-auto-flow: column; }
+  .hm-legend { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-muted); margin-left: 6px; }
+  .hm-legend .ramp { display: flex; flex-direction: column-reverse; gap: 2px; }
+  .hm-legend .step { width: 14px; height: 22px; border-radius: 2px; }
+  .viz-root .hm-legend .s7 { background: var(--hm-7); } .viz-root .hm-legend .s6 { background: var(--hm-6); }
+  .viz-root .hm-legend .s5 { background: var(--hm-5); } .viz-root .hm-legend .s4 { background: var(--hm-4); }
+  .viz-root .hm-legend .s3 { background: var(--hm-3); } .viz-root .hm-legend .s2 { background: var(--hm-2); }
+  .viz-root .hm-legend .s1 { background: var(--hm-1); } .viz-root .hm-legend .s0 { background: var(--hm-0); }
+  /* 蓝色序贯渐变（亮色：深=大；暗色：亮=大），近零值向表面退缩 */
+  .viz-root {
+    --hm-0:#cde2fb; --hm-1:#b7d3f6; --hm-2:#9ec5f4; --hm-3:#6da7ec;
+    --hm-4:#3987e5; --hm-5:#256abf; --hm-6:#184f95; --hm-7:#0d366b;
+    --hm-fg-ink:#0b0b0b; --hm-fg-white:#ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      --hm-0:#1d3a63; --hm-1:#24497d; --hm-2:#2e5c9b; --hm-3:#3987e5;
+      --hm-4:#5598e7; --hm-5:#6da7ec; --hm-6:#86b6ef; --hm-7:#9ec5f4;
+      --hm-fg-ink:#1a1a19; --hm-fg-white:#ffffff;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    --hm-0:#1d3a63; --hm-1:#24497d; --hm-2:#2e5c9b; --hm-3:#3987e5;
+    --hm-4:#5598e7; --hm-5:#6da7ec; --hm-6:#86b6ef; --hm-7:#9ec5f4;
+    --hm-fg-ink:#1a1a19; --hm-fg-white:#ffffff;
+  }
+
+  /* ---------- 条形图 ---------- */
+  .bars { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 12px; }
+  .bar-row .name { font-size: 12px; color: var(--ink-secondary); text-align: right; }
+  .bar-track { height: 20px; position: relative; background: transparent; }
+  .bar-fill {
+    position: absolute; left: 0; top: 0; height: 20px; max-width: 100%;
+    border-radius: 4px 4px 4px 4px;                 /* 圆角数据端 */
+  }
+  .bar-fill.series-1 { background: var(--series-1); }
+  .bar-fill.series-2 { background: var(--series-2); }
+  .bar-value { font-size: 12px; color: var(--ink-primary); font-weight: 600; margin-left: 8px; white-space: nowrap; }
+  .bar-row .track-wrap { display: flex; align-items: center; flex: 1; }
+  .bar-row .track-wrap .bar-track { flex: 1; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: var(--ink-secondary); margin-bottom: 14px; }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .legend .swatch.series-1 { background: var(--series-1); }
+  .legend .swatch.series-2 { background: var(--series-2); }
+
+  .group-row { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .group-row .name { font-size: 12px; color: var(--ink-secondary); text-align: right; }
+  .group-bars { display: flex; flex-direction: column; gap: 4px; }
+  .track-wrap { display: flex; align-items: center; flex: 1; }
+
+  /* ---------- 提示框 / 表格 ---------- */
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 100;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 12px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    opacity: 0; transition: opacity 0.08s; max-width: 300px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--grid); }
+  th { color: var(--ink-secondary); font-weight: 600; font-size: 12px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .callout { border-left: 3px solid var(--critical); background: var(--surface-1); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 16px; }
+  .callout strong { color: var(--critical); }
+  footer { font-size: 12px; color: var(--ink-muted); margin-top: 40px; border-top: 1px solid var(--grid); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <header>
+    <div>
+      <h1>医疗诊断多Agent系统 · 测评仪表盘</h1>
+      <div class="sub">意图分类（200 条）· RAG 检索（99 正样本 + 11 负样本） · 2026-08-18 · 模型 deepseek-v4-flash · 向量 text-embedding-v3</div>
+    </div>
+    <button id="themeToggle" type="button">切换深色模式</button>
+  </header>
+
+  <!-- 英雄数字 -->
+  <div class="hero">
+    <div class="label">意图分类严格准确率（5 类 × 40 条，含对抗样本）</div>
+    <div class="value">95.5%</div>
+    <div class="note">Macro-F1 0.955 · easy 层 100% · 主要失分：域外问题被吸进咨询类（5/9 条错误）</div>
+  </div>
+
+  <!-- KPI 行 -->
+  <div class="kpis">
+    <div class="kpi">
+      <div class="label">意图分类 Macro-F1</div>
+      <div class="value">0.955</div>
+      <span class="status good"><span class="icon">✓</span>良好</span>
+    </div>
+    <div class="kpi">
+      <div class="label">RAG Recall@3（原文检索）</div>
+      <div class="value">0.921</div>
+      <span class="status good"><span class="icon">✓</span>良好</span>
+    </div>
+    <div class="kpi">
+      <div class="label">生成忠实度均值（1–5）</div>
+      <div class="value">3.13</div>
+      <span class="status serious"><span class="icon">!</span>需关注 · 40.4% 低忠实度</span>
+    </div>
+    <div class="kpi">
+      <div class="label">负样本拒答率</div>
+      <div class="value">18.2%</div>
+      <span class="status critical"><span class="icon">✕</span>严重 · 9/11 编造</span>
+    </div>
+  </div>
+
+  <!-- 意图分类 -->
+  <section>
+    <h2>意图分类</h2>
+    <div class="desc">真实意图（行）→ 预测意图（列），共 200 条。对角线越深越好；离线格即分类错误。</div>
+    <div class="panel grid-2">
+      <div>
+        <div class="heatmap-wrap">
+          <div class="heatmap" id="heatmap" style="grid-template-columns: 52px repeat(5, 1fr);"></div>
+          <div class="hm-legend">
+            <div class="ramp">
+              <div class="step s7"></div><div class="step s6"></div><div class="step s5"></div><div class="step s4"></div>
+              <div class="step s3"></div><div class="step s2"></div><div class="step s1"></div><div class="step s0"></div>
+            </div>
+            <div>多</div><div>少</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:10px;">悬停查看「真实 → 预测」明细</div>
+      </div>
+      <div>
+        <div class="legend"><span class="item">每类 F1（单系列）</span></div>
+        <div class="bars" id="f1bars"></div>
+        <div class="callout" style="border-left-color: var(--serious); margin-top: 20px;">
+          <strong style="color: var(--serious);">槽位提取 schema 失控：</strong>200 条样本中 extracted_info 出现了 60+ 种字段名（中英混用、任意命名）。别名归一下，关键字段 F1：doctor 1.00 / department 0.97 / date 0.82 / symptoms 0.55。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAG 检索 -->
+  <section>
+    <h2>RAG 检索 · 消融实验</h2>
+    <div class="desc">基线（查询改写 + 多路融合）vs 无改写（原文单路）。查询改写当前是净负优化：Δ Recall@3 = −0.104。</div>
+    <div class="panel">
+      <div class="legend">
+        <span class="item"><span class="swatch series-1"></span>基线（改写+多路）</span>
+        <span class="item"><span class="swatch series-2"></span>无改写（原文）</span>
+      </div>
+      <div class="group-row">
+        <div class="name">Recall@1</div>
+        <div class="group-bars">
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-1" style="width:56.9%"></div></div><span class="bar-value">0.569</span></div>
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-2" style="width:76.6%"></div></div><span class="bar-value">0.766</span></div>
+        </div>
+      </div>
+      <div class="group-row">
+        <div class="name">Recall@3</div>
+        <div class="group-bars">
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-1" style="width:81.7%"></div></div><span class="bar-value">0.817</span></div>
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-2" style="width:92.1%"></div></div><span class="bar-value">0.921</span></div>
+        </div>
+      </div>
+      <div class="group-row">
+        <div class="name">Recall@5</div>
+        <div class="group-bars">
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-1" style="width:85.7%"></div></div><span class="bar-value">0.857</span></div>
+          <div class="track-wrap"><div class="bar-track"><div class="bar-fill series-2" style="width:93.4%"></div></div><span class="bar-value">0.934</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 24px;">
+        <table>
+          <thead><tr><th>指标（k=3）</th><th class="num">基线</th><th class="num">无改写</th></tr></thead>
+          <tbody>
+            <tr><td>Recall@3</td><td class="num">0.817</td><td class="num">0.921</td></tr>
+            <tr><td>Hit@3</td><td class="num">0.828</td><td class="num">0.929</td></tr>
+            <tr><td>MRR</td><td class="num">0.707</td><td class="num">0.858</td></tr>
+            <tr><td>nDCG@3</td><td class="num">0.721</td><td class="num">0.867</td></tr>
+            <tr><td>Keypoint Coverage</td><td class="num">0.956</td><td class="num">—</td></tr>
+            <tr><td>生成相关性均值</td><td class="num">4.79/5</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+        <div>
+          <table>
+            <thead><tr><th>题型 Recall@3</th><th class="num">基线</th><th class="num">无改写</th></tr></thead>
+            <tbody>
+              <tr><td>factoid (48)</td><td class="num">0.875</td><td class="num">0.958</td></tr>
+              <tr><td>paraphrase (21)</td><td class="num">0.810</td><td class="num">0.905</td></tr>
+              <tr><td>colloquial (16)</td><td class="num">0.813</td><td class="num">0.875</td></tr>
+              <tr><td>multi-hop (7)</td><td class="num">0.548</td><td class="num">0.881</td></tr>
+              <tr><td>adversarial (7)</td><td class="num">0.714</td><td class="num">0.857</td></tr>
+            </tbody>
+          </table>
+          <div class="callout">
+            <strong>改写破坏 11 条、救回仅 1 条：</strong>改写将口语词换成专业表述（"五驾马车"→"糖尿病综合管理的五大核心要素"），丢失了与文档词汇分布的重叠；三路等权融合还会挤掉原文路命中的正确结果。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 生成层与负样本 -->
+  <section>
+    <h2>生成层忠实度 · 负样本</h2>
+    <div class="desc">LLM-as-Judge 对每条回答打分（1–5）。检索命中时忠实度 3.44，未命中时骤降到 1.65 —— 但低忠实度样本中 26/40 检索已命中，说明生成层自身约束不足。</div>
+    <div class="panel grid-2">
+      <div>
+        <div class="bars" id="faithBars"></div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>负样本（库外问题）</th><th class="num">值</th></tr></thead>
+          <tbody>
+            <tr><td>样本数</td><td class="num">11</td></tr>
+            <tr><td>拒答率</td><td class="num">18.2%（2/11）</td></tr>
+            <tr><td>忠实度均值</td><td class="num">1.73 / 5</td></tr>
+            <tr><td>疑似完全编造</td><td class="num">9 / 11</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <strong>最高优先风险：</strong>"医保怎么报销""肺癌晚期还能活多久"等库外问题，系统 82% 概率用模型参数知识流畅编造，而非声明"知识库未收录"。需检索距离阈值 + 无依据拒答硬约束。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 表格视图（可访问性） -->
+  <section>
+    <h2>数据附表</h2>
+    <div class="panel">
+      <table>
+        <thead><tr><th>真实 \ 预测</th><th class="num">appointment</th><th class="num">queue</th><th class="num">consultation</th><th class="num">diagnosis</th><th class="num">chitchat</th></tr></thead>
+        <tbody id="cmTable"></tbody>
+      </table>
+      <table style="margin-top: 20px;">
+        <thead><tr><th>类别</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th><th class="num">支持数</th></tr></thead>
+        <tbody id="pcTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    数据来源：eval/datasets/intent_test.jsonl（200 条）、rag_test.jsonl（110 条） · 完整报告：eval/reports/eval_report.md ·
+    复跑：python eval/run_intent_eval.py ／ python eval/run_rag_eval.py ·
+    LLM-as-Judge 与生成系统共用同一 LLM 接口，绝对值可能略偏严，相对结论不受影响。
+  </footer>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+(function () {
+  "use strict";
+  // ---------- 数据 ----------
+  const LABELS = ["appointment", "queue", "consultation", "diagnosis", "chitchat"];
+  const LABELS_ZH = ["预约挂号", "排队叫号", "医疗咨询", "症状诊断", "闲聊"];
+  const CM = [
+    [39, 0, 0, 1, 0],
+    [1, 39, 0, 0, 0],
+    [1, 0, 38, 1, 0],
+    [0, 0, 0, 40, 0],
+    [0, 0, 5, 0, 35],
+  ];
+  const PER_CLASS = {
+    appointment: {p:0.9512, r:0.9750, f1:0.9630},
+    queue:       {p:1.0000, r:0.9750, f1:0.9873},
+    consultation:{p:0.8837, r:0.9500, f1:0.9157},
+    diagnosis:   {p:0.9524, r:1.0000, f1:0.9756},
+    chitchat:    {p:1.0000, r:0.8750, f1:0.9333},
+  };
+  // 忠实度分组条形（单系列）
+  const FAITH_BARS = [
+    { name: "忠实度均值", value: 3.13, max: 5, display: "3.13 / 5" },
+    { name: "检索命中时", value: 3.44, max: 5, display: "3.44 / 5" },
+    { name: "检索未命中时", value: 1.65, max: 5, display: "1.65 / 5" },
+    { name: "低忠实度占比", value: 40.4, max: 100, display: "40.4%" },
+  ];
+
+  // ---------- 热力图 ----------
+  function heatBucket(v) {
+    if (v === 0) return 0;
+    if (v <= 2) return 1;
+    if (v <= 4) return 2;
+    if (v <= 9) return 3;
+    if (v <= 19) return 4;
+    if (v <= 29) return 5;
+    if (v <= 38) return 6;
+    return 7;
+  }
+  const hm = document.getElementById("heatmap");
+  hm.innerHTML = "";
+  // 表头行（预测标签，旋转？不，短标签即可）
+  const corner = document.createElement("div");
+  corner.className = "hm-axis tick";
+  corner.style.gridColumn = "1";
+  corner.textContent = "真实\\预测";
+  hm.appendChild(corner);
+  LABELS_ZH.forEach(function (l) {
+    const t = document.createElement("div");
+    t.className = "hm-axis tick col";
+    t.textContent = l;
+    hm.appendChild(t);
+  });
+  CM.forEach(function (row, i) {
+    const rt = document.createElement("div");
+    rt.className = "hm-axis tick";
+    rt.textContent = LABELS_ZH[i];
+    hm.appendChild(rt);
+    row.forEach(function (v, j) {
+      const c = document.createElement("div");
+      c.className = "hm-cell c" + heatBucket(v);
+      c.textContent = v;
+      c.setAttribute("aria-label", "真实 " + LABELS_ZH[i] + " → 预测 " + LABELS_ZH[j] + "：" + v + " 条");
+      c.addEventListener("mouseenter", function (e) {
+        const tip = document.getElementById("tooltip");
+        tip.innerHTML = "<strong>" + LABELS_ZH[i] + " → " + LABELS_ZH[j] + "</strong><br>" +
+          (i === j ? "正确分类" : "误分类") + "：" + v + " 条";
+        tip.style.opacity = 1;
+      });
+      c.addEventListener("mousemove", function (e) {
+        const tip = document.getElementById("tooltip");
+        tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 240) + "px";
+        tip.style.top = (e.clientY + 14) + "px";
+      });
+      c.addEventListener("mouseleave", function () {
+        document.getElementById("tooltip").style.opacity = 0;
+      });
+      hm.appendChild(c);
+    });
+  });
+
+  // ---------- 每类 F1 条形 ----------
+  const f1bars = document.getElementById("f1bars");
+  LABELS.forEach(function (label, i) {
+    const v = PER_CLASS[label].f1;
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML =
+      '<div class="name">' + LABELS_ZH[i] + "</div>" +
+      '<div class="track-wrap"><div class="bar-track">' +
+      '<div class="bar-fill series-1" style="width:' + (v * 100) + '%"></div>' +
+      "</div>" +
+      '<span class="bar-value">' + v.toFixed(3) + "</span></div>";
+    f1bars.appendChild(row);
+  });
+
+  // ---------- 忠实度条形 ----------
+  const fbars = document.getElementById("faithBars");
+  FAITH_BARS.forEach(function (b) {
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML =
+      '<div class="name">' + b.name + "</div>" +
+      '<div class="track-wrap"><div class="bar-track">' +
+      '<div class="bar-fill series-1" style="width:' + (b.value / b.max * 100) + '%"></div>' +
+      "</div>" +
+      '<span class="bar-value">' + b.display + "</span></div>";
+    fbars.appendChild(row);
+  });
+
+  // ---------- 附表：混淆矩阵数值 ----------
+  const cmTable = document.getElementById("cmTable");
+  LABELS.forEach(function (label, i) {
+    const tr = document.createElement("tr");
+    let html = "<td>" + LABELS_ZH[i] + "</td>";
+    CM[i].forEach(function (v) { html += '<td class="num">' + v + "</td>"; });
+    tr.innerHTML = html;
+    cmTable.appendChild(tr);
+  });
+  const pcTable = document.getElementById("pcTable");
+  LABELS.forEach(function (label, i) {
+    const m = PER_CLASS[label];
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + LABELS_ZH[i] + "</td>" +
+      '<td class="num">' + m.p.toFixed(4) + "</td>" +
+      '<td class="num">' + m.r.toFixed(4) + "</td>" +
+      '<td class="num">' + m.f1.toFixed(4) + "</td>" +
+      '<td class="num">40</td>';
+    pcTable.appendChild(tr);
+  });
+
+  // ---------- 主题切换 ----------
+  document.getElementById("themeToggle").addEventListener("click", function () {
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const current = root.dataset.theme || (prefersDark ? "dark" : "light");
+    root.dataset.theme = current === "dark" ? "light" : "dark";
+  });
+})();
+</script>
+</body>
+</html>

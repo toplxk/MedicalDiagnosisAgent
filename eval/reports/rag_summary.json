@@ -1,0 +1,223 @@
+{
+  "dataset": "rag_test.jsonl",
+  "n_positive": 99,
+  "n_negative": 11,
+  "retrieval": {
+    "baseline": {
+      "mrr": 0.7070707070707071,
+      "recall@1": 0.5690235690235691,
+      "precision@1": 0.5959595959595959,
+      "hit@1": 0.5959595959595959,
+      "ndcg@1": 0.5959595959595959,
+      "recall@3": 0.8164983164983165,
+      "precision@3": 0.28619528619528617,
+      "hit@3": 0.8282828282828283,
+      "ndcg@3": 0.7213681057453396,
+      "recall@5": 0.8569023569023568,
+      "precision@5": 0.17979797979797982,
+      "hit@5": 0.8686868686868687,
+      "ndcg@5": 0.73876917879881,
+      "by_type": {
+        "factoid": {
+          "mrr": 0.7534722222222222,
+          "recall@3": 0.875,
+          "precision@3": 0.2916666666666667,
+          "hit@3": 0.875,
+          "ndcg@3": 0.7767828858630988
+        },
+        "paraphrase": {
+          "mrr": 0.6746031746031745,
+          "recall@3": 0.8095238095238095,
+          "precision@3": 0.2857142857142857,
+          "hit@3": 0.8095238095238095,
+          "ndcg@3": 0.6916056673469443
+        },
+        "colloquial": {
+          "mrr": 0.6770833333333334,
+          "recall@3": 0.8125,
+          "precision@3": 0.2708333333333333,
+          "hit@3": 0.8125,
+          "ndcg@3": 0.7120493287946483
+        },
+        "multi-hop": {
+          "mrr": 0.7142857142857143,
+          "recall@3": 0.5476190476190477,
+          "precision@3": 0.3333333333333333,
+          "hit@3": 0.7142857142857143,
+          "ndcg@3": 0.5832037026840308
+        },
+        "adversarial": {
+          "mrr": 0.5476190476190477,
+          "recall@3": 0.7142857142857143,
+          "precision@3": 0.23809523809523808,
+          "hit@3": 0.7142857142857143,
+          "ndcg@3": 0.5901328219387797
+        }
+      }
+    },
+    "no_rewrite": {
+      "mrr": 0.8577441077441078,
+      "recall@1": 0.7659932659932659,
+      "precision@1": 0.797979797979798,
+      "hit@1": 0.797979797979798,
+      "ndcg@1": 0.797979797979798,
+      "recall@3": 0.920875420875421,
+      "precision@3": 0.32659932659932656,
+      "hit@3": 0.9292929292929293,
+      "ndcg@3": 0.8671279459340802,
+      "recall@5": 0.9343434343434344,
+      "precision@5": 0.2,
+      "hit@5": 0.9393939393939394,
+      "ndcg@5": 0.873311969677623,
+      "by_type": {
+        "factoid": {
+          "mrr": 0.9027777777777778,
+          "recall@3": 0.9583333333333334,
+          "precision@3": 0.3194444444444444,
+          "hit@3": 0.9583333333333334,
+          "ndcg@3": 0.9171608127976215
+        },
+        "paraphrase": {
+          "mrr": 0.8293650793650794,
+          "recall@3": 0.9047619047619048,
+          "precision@3": 0.31746031746031744,
+          "hit@3": 0.9047619047619048,
+          "ndcg@3": 0.8395680835034027
+        },
+        "colloquial": {
+          "mrr": 0.8020833333333334,
+          "recall@3": 0.875,
+          "precision@3": 0.29166666666666663,
+          "hit@3": 0.875,
+          "ndcg@3": 0.8206831095982161
+        },
+        "multi-hop": {
+          "mrr": 1.0,
+          "recall@3": 0.880952380952381,
+          "precision@3": 0.5238095238095238,
+          "hit@3": 1.0,
+          "ndcg@3": 0.8997469455574668
+        },
+        "adversarial": {
+          "mrr": 0.619047619047619,
+          "recall@3": 0.8571428571428571,
+          "precision@3": 0.2857142857142857,
+          "hit@3": 0.8571428571428571,
+          "ndcg@3": 0.6802656438775594
+        }
+      }
+    }
+  },
+  "rewrite_ablation": {
+    "baseline_recall@3": 0.8164983164983165,
+    "no_rewrite_recall@3": 0.920875420875421,
+    "delta_recall@3": -0.1044
+  },
+  "generation": {
+    "keypoint_coverage": 0.9562289562289563,
+    "n_answered": 99,
+    "faithfulness_mean": 3.1313131313131315,
+    "relevance_mean": 4.787878787878788,
+    "faithfulness_le2_ratio": 0.40404040404040403,
+    "faithfulness_by_recall3_hit": 3.4390243902439024,
+    "faithfulness_by_recall3_miss": 1.6470588235294117
+  },
+  "negative": {
+    "n": 11,
+    "refusal_rate": 0.18181818181818182,
+    "keypoint_na": null,
+    "faithfulness_mean": 1.7272727272727273,
+    "fabricated": [
+      {
+        "id": "rag_097",
+        "question": "新冠疫苗第三针什么时候打？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 4.0,
+          "refused": false,
+          "rationale": "回答直接回应了问题且内容详细，但所有医疗事实断言均无法从参考文档中找到支持，存在编造。"
+        }
+      },
+      {
+        "id": "rag_098",
+        "question": "医保异地就医怎么报销？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "参考文档无医保异地报销内容，回答完全编造，faithfulness低；但回答直接切题，relevance高。"
+        }
+      },
+      {
+        "id": "rag_099",
+        "question": "肺癌晚期还能活多久？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "回答内容完全基于编造，无参考文档支持；但直接回应问题，切题且详细。"
+        }
+      },
+      {
+        "id": "rag_100",
+        "question": "幽门螺旋杆菌四联疗法具体吃什么药？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "回答具体药物未在参考文档中出现，属于编造；但直接回应问题，详细且相关。"
+        }
+      },
+      {
+        "id": "rag_101",
+        "question": "帕金森病能治好吗？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "回答中帕金森病无法根治的断言在参考文档中无依据，编造信息；但直接回应问题，相关性强。"
+        }
+      },
+      {
+        "id": "rag_103",
+        "question": "癫痫发作应该掐人中吗？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "参考文档未涉及癫痫急救，回答中的医疗事实断言无法被文档支持，faithfulness低；但直接回应问题，相关性高。"
+        }
+      },
+      {
+        "id": "rag_104",
+        "question": "白肺是什么病？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "回答详细解释了白肺，但参考文档中无相关定义和原因，所有事实断言无依据，属编造。"
+        }
+      },
+      {
+        "id": "rag_105",
+        "question": "减肥茶有用吗？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "回答中关于减肥茶的所有断言均无参考文档支持，faithfulness低；但直接回应问题，切题且详细，relevance高。"
+        }
+      },
+      {
+        "id": "rag_109",
+        "question": "吃降压药降压太快有什么风险？",
+        "judge": {
+          "faithfulness": 1.0,
+          "relevance": 5.0,
+          "refused": false,
+          "rationale": "候选回答详细列举了降压太快的风险，但参考文档中无相关依据，属于编造内容。"
+        }
+      }
+    ]
+  }
+}
