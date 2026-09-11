@@ -14,7 +14,7 @@
 - 排班目前是**随机生成**的假数据（`appointment_tool._ensure_schedule` 首次查询时随机造）；
 - 诊断结果**完全不落库**（`collected_info` 仅存内存，会话结束即失）。
 
-目标：为医生/管理员提供后台门户，包含——值班/排班录入、叫号、今日预约患者列表、排队看板、诊断/病历记录、就诊统计。
+目标：为医生/管理员提供后台门户，包含——值班/排班录入、叫号、今日预约患者列表、排队看板、诊断/病历记录、就诊统计，以及超管（admin）的**权限配置**（管理每个账号所分配的系统功能）。
 
 术语约定：患者端是「取号」（take_number），医生端才是「叫号」（call_next）。
 
@@ -41,34 +41,49 @@ MedicalDiagnosisAgent/
 - 开发联调：Vben dev server（5173）Vite proxy 将 `/api` 转发到 8000。
 - 生产：`pnpm build` 产出 dist 由 FastAPI 挂载，仍为单端口部署。
 
-## 3. 数据模型变更（4 处）
+## 3. 数据模型变更（5 处）
 
-1. **`doctors` 表新增 `user_id INT NULL UNIQUE` 列**（登录账号 ↔ 医生实体关联）。
-   种子数据为每位医生生成账号：拼音用户名（如 `zhangjianguo`）、密码 `123456`、role=`doctor`。管理员可在后台新建医生+账号、禁用账号。
+**1. `doctors` 表新增 `user_id INT NULL UNIQUE` 列**（登录账号 ↔ 医生实体关联）。
 
-2. **排班改为真实录入。**
-   `doctor_schedules` 表结构不变（doctor_id、schedule_date、period 上/下午、available_slots 已够用）。
-   - 移除 `appointment_tool._ensure_schedule()` 的随机生成逻辑；
-   - `seed_if_empty` 时为未来 7 天预生成一次演示排班（此后可真实修改）；
-   - 医生只能录入自己的排班；admin 可代录/修正所有人。`slots=0` 表示停诊（删除该时段）。
+种子数据为每位医生生成账号：拼音用户名（如 `zhangjianguo`）、密码 `123456`、role=`doctor`。管理员可在后台新建医生+账号、禁用账号。
 
-3. **新增 `diagnosis_records` 表**（诊断结果持久化）：
+**2. 排班改为真实录入。**
 
-   | 字段 | 类型 | 说明 |
-   |---|---|---|
-   | id | INT AUTO_INCREMENT PK | |
-   | session_id | VARCHAR(64) | 会话 ID |
-   | user_id | INT NULL | 患者账号 |
-   | patient_name | VARCHAR(50) | 患者称呼 |
-   | department_id | INT NULL | 科室（可空） |
-   | doctor_id | INT NULL | 接诊医生（可空） |
-   | chief_complaint | VARCHAR(200) | 主诉 |
-   | collected_info | JSON | 采集的病史信息 |
-   | conclusion | TEXT | 诊断结论 |
-   | risk_level | VARCHAR(20) NULL | 危重分级（取 symptom_tool 数据） |
-   | created_at | TIMESTAMP | |
+`doctor_schedules` 表结构不变（doctor_id、schedule_date、period 上/下午、available_slots 已够用）。
 
-4. **统计不建新表**：基于 `appointments` / `queue_tickets` / `diagnosis_records` 现表聚合。
+- 移除 `appointment_tool._ensure_schedule()` 的随机生成逻辑；
+- `seed_if_empty` 时为未来 7 天预生成一次演示排班（此后可真实修改）；
+- 医生只能录入自己的排班；admin 可代录/修正所有人。`slots=0` 表示停诊（删除该时段）。
+
+**3. 新增 `diagnosis_records` 表**（诊断结果持久化）：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| id | INT AUTO_INCREMENT PK | 主键 |
+| session_id | VARCHAR(64) | 会话 ID |
+| user_id | INT NULL | 患者账号 |
+| patient_name | VARCHAR(50) | 患者称呼 |
+| department_id | INT NULL | 科室（可空） |
+| doctor_id | INT NULL | 接诊医生（可空） |
+| chief_complaint | VARCHAR(200) | 主诉 |
+| collected_info | JSON | 采集的病史信息 |
+| conclusion | TEXT | 诊断结论 |
+| created_at | TIMESTAMP | 创建时间 |
+
+**4. 统计不建新表**：基于 `appointments` / `queue_tickets` / `diagnosis_records` 现表聚合。
+
+**5. 新增 `user_permissions` 表**（账号级功能授权，配合代码内功能注册表 `services/permissions.py`）：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| user_id | INT | 账号，联合主键 |
+| feature_key | VARCHAR(40) | 功能键，联合主键 |
+| granted | TINYINT | 1=授权，默认 1 |
+
+- 功能注册表（医生门户 5 项）：`call_queue` 叫号台、`view_appointments` 今日预约、`manage_schedules` 排班管理、`view_records` 诊断记录、`view_stats` 就诊统计；
+- 授权语义：admin 角色天然拥有全部权限（不受此表约束）；doctor 账号有记录即授权、无记录即禁止；
+- 种子数据：每位医生的账号默认授予全部 5 项（演示开箱即用，admin 可回收）；admin 新建医生账号时同样默认全授；
+- 患者（patient）账号的工作台功能不做逐项管控（范围外，见 §8）。
 
 ## 4. 后端 API
 
@@ -94,21 +109,25 @@ MedicalDiagnosisAgent/
 | GET/POST | `/api/admin/doctors` | 医生列表 / 新建医生+账号 |
 | PUT | `/api/admin/doctors/{id}` | 修改信息、启用/禁用账号 |
 | PUT | `/api/admin/schedules` | 代录/修正任意医生排班（body 带 doctor_id） |
+| GET | `/api/admin/permissions/users` | 账号列表（含 role 与已授功能） |
+| GET | `/api/admin/permissions/features` | 功能注册表（功能键/名称） |
+| PUT | `/api/admin/permissions/users/{id}` | 全量设置某账号的功能授权 |
 | GET | `/api/admin/stats` | 全院统计 |
 
 ### 权限依赖（FastAPI Depends）
 
 - `require_user`：登录即可（token 有效）；
-- `require_doctor`：doctor 角色且关联 doctors 行，返回医生行；
-- `require_admin`：admin 角色。
-- 未登录 401、角色不符 403。
+- `require_doctor`：doctor 角色且关联 doctors 行，返回 `{user, doctor}`；
+- `require_admin`：admin 角色；
+- `require_doctor_feature(key)`：`require_doctor` + 功能授权校验（admin 直接放行）；
+- 未登录 401、角色不符 403、功能未授权 403。
 
 ## 5. 前端：Vben Admin v5 医生门户
 
 - 技术栈：vue-vben-admin v5（Ant Design Vue 版官方模板，裁剪演示代码），pnpm + Vite，目录 `web/`。
 - 布局：用 Vben 内置布局切换（侧边栏/顶栏/混合），默认侧边栏，医生可自行切换。
 - 登录：对接现有 `/api/auth/login`（账号密码），token 存 Vben 认证状态，请求统一 `Authorization: Bearer`。
-- 权限路由：登录返回 `role` 控制菜单——doctor 见 5 个功能页；admin 额外见「医生管理」「全院统计」。401 跳登录。
+- 权限路由：登录返回 `role` 控制菜单——doctor 见 5 个功能页；admin 额外见「医生管理」「权限配置」「全院统计」。401 跳登录。
 - 页面（6 个路由）：
   1. **叫号台**（首页）：大号「叫下一个」按钮 + 科室队列（当前号/等待列表），轮询刷新；
   2. **今日预约**：本人患者预约列表（时段/状态）；
@@ -116,11 +135,13 @@ MedicalDiagnosisAgent/
   4. **诊断记录**：本科室患者诊断历史 + 详情抽屉；
   5. **统计**：预约/叫号/诊断卡片 + 趋势图（doctor：本人/本科室；admin：全院）；
   6. **候诊大屏** `/board`：全屏大字号当前叫号 + 等待队列（投候诊区）。
+- **菜单按功能授权过滤**：登录后拉取 `/api/doctor/me` 返回的已授功能，未授权项不显示菜单（路由同样拦截）。
+- **管理员扩展页**：医生管理（新建/编辑/禁用医生及账号）、权限配置（账号列表 + 功能授权勾选保存）、全院统计。
 - 患者工作台 `frontend/` 完全不受影响。
 
 ## 6. 权限 / 错误处理 / 测试
 
-**权限**：医生数据隔离——只能看/改自己的排班、本人预约、本科室队列与诊断记录；admin 全域。
+**权限**：医生数据隔离——只能看/改自己的排班、本人预约、本科室队列与诊断记录；admin 全域。账号级功能授权由 `user_permissions` 控制，后端每个医生接口挂 `require_doctor_feature`，前端菜单按已授功能过滤——双层校验。
 
 **错误处理**：沿用 `ApiEnvelope`（success/message/data）；排班校验（日期格式、时段枚举、号源 0–50，DB 唯一键兜底）；叫号空队列友好提示（现有逻辑已有）；诊断落库失败仅记日志，不影响对话主流程。
 
@@ -133,4 +154,4 @@ MedicalDiagnosisAgent/
 
 ## 8. 范围外（YAGNI）
 
-- 候诊大屏语音播报、短信/微信真实网关（现有为演示实现）、前端单测、排班变更审计、多租户、医生转移队列。
+- 候诊大屏语音播报、短信/微信真实网关（现有为演示实现）、前端单测、排班变更审计、多租户、医生转移队列、患者账号的工作台功能逐项管控（patient 角色不做功能授权）。
