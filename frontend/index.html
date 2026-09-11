@@ -4,9 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>智能医疗导诊 · MedDesk</title>
-  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/styles.css?v=20260909b" />
 </head>
 <body>
+  <!-- 登录层 -->
+  <div class="auth-overlay" id="authOverlay" hidden>
+    <div class="auth-card" role="dialog" aria-labelledby="authTitle">
+      <div class="auth-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <div>
+          <strong>MedDesk</strong>
+          <span>智能医疗导诊</span>
+        </div>
+      </div>
+      <h1 id="authTitle">登录以使用完整服务</h1>
+      <p class="auth-sub">支持账号密码、手机验证码，以及微信 / 钉钉授权登录</p>
+
+      <div class="auth-tabs" id="authTabs" role="tablist"></div>
+
+      <form class="auth-form" id="authForm" autocomplete="on">
+        <!-- password -->
+        <div class="auth-pane" data-platform="password">
+          <label>
+            <span>用户名</span>
+            <input type="text" name="username" placeholder="zhangsan" autocomplete="username" />
+          </label>
+          <label>
+            <span>密码</span>
+            <input type="password" name="password" placeholder="••••••" autocomplete="current-password" />
+          </label>
+          <p class="auth-hint">演示账号：admin/admin123 · zhangsan/123456 · doctor/123456</p>
+        </div>
+
+        <!-- phone -->
+        <div class="auth-pane" data-platform="phone" hidden>
+          <label>
+            <span>手机号</span>
+            <input type="tel" name="phone" placeholder="13800000000" maxlength="11" autocomplete="tel" />
+          </label>
+          <label>
+            <span>验证码</span>
+            <span class="code-row">
+              <input type="text" name="code" placeholder="123456" maxlength="6" autocomplete="one-time-code" />
+              <button type="button" class="btn secondary" id="btnSendSms">获取验证码</button>
+            </span>
+          </label>
+          <p class="auth-hint">演示环境验证码固定为 <b>123456</b>，未注册手机号将自动创建患者账号。</p>
+        </div>
+
+        <!-- wechat -->
+        <div class="auth-pane" data-platform="wechat" hidden>
+          <label>
+            <span>微信授权码</span>
+            <input type="text" name="code" placeholder="演示：任意字符串，如 wx_demo_01" />
+          </label>
+          <p class="auth-hint">演示 OAuth：首次使用授权码会自动创建账号并绑定微信身份。</p>
+        </div>
+
+        <!-- dingtalk -->
+        <div class="auth-pane" data-platform="dingtalk" hidden>
+          <label>
+            <span>钉钉授权码</span>
+            <input type="text" name="code" placeholder="演示：任意字符串，如 dt_demo_01" />
+          </label>
+          <p class="auth-hint">演示 OAuth：首次使用授权码会自动创建账号并绑定钉钉身份。</p>
+        </div>
+
+        <div class="auth-actions">
+          <button type="submit" class="btn primary" id="btnLogin">登录</button>
+          <button type="button" class="btn ghost" id="btnRegister">注册新账号</button>
+        </div>
+        <p class="auth-error" id="authError" hidden></p>
+      </form>
+    </div>
+  </div>
+
   <div class="app">
     <!-- 顶栏 -->
     <header class="topbar">
@@ -23,7 +100,7 @@
         </div>
       </div>
       <div class="topbar-meta">
-        <span class="status-pill" id="healthPill">
+        <span class="status-pill" id="healthPill" role="status" aria-live="polite">
           <i class="dot"></i>
           <span id="healthText">连接中…</span>
         </span>
@@ -37,35 +114,45 @@
         <p class="rail-label">服务</p>
         <nav class="rail-nav" id="serviceNav">
           <button type="button" class="rail-item is-active" data-service="chat" data-prompt="">
-            <span class="rail-icon">聊</span>
+            <span class="rail-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </span>
             <span class="rail-copy">
               <strong>智能对话</strong>
               <em>自动识别意图并分发</em>
             </span>
           </button>
           <button type="button" class="rail-item" data-service="appointment" data-prompt="我想预约挂号">
-            <span class="rail-icon">约</span>
+            <span class="rail-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </span>
             <span class="rail-copy">
               <strong>预约挂号</strong>
               <em>查排班 · 预约 · 取消</em>
             </span>
           </button>
           <button type="button" class="rail-item" data-service="queue" data-prompt="帮我取个号">
-            <span class="rail-icon">号</span>
+            <span class="rail-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </span>
             <span class="rail-copy">
               <strong>排队叫号</strong>
               <em>取号 · 查进度 · 叫号</em>
             </span>
           </button>
           <button type="button" class="rail-item" data-service="consult" data-prompt="">
-            <span class="rail-icon">询</span>
+            <span class="rail-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7M17 12H7"/></svg>
+            </span>
             <span class="rail-copy">
               <strong>医疗咨询</strong>
               <em>RAG 知识库问答</em>
             </span>
           </button>
           <button type="button" class="rail-item" data-service="diagnosis" data-prompt="我最近身体不舒服，想做症状分析">
-            <span class="rail-icon">诊</span>
+            <span class="rail-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </span>
             <span class="rail-copy">
               <strong>症状诊断</strong>
               <em>多轮追问 · 初步分析</em>
@@ -74,12 +161,58 @@
         </nav>
 
         <div class="rail-foot">
-          <p class="rail-label">会话</p>
-          <div class="session-box">
-            <span class="session-id" id="sessionIdLabel">—</span>
-            <button type="button" class="btn tiny" id="btnNewSession">新建会话</button>
+          <p class="rail-label">会话与账号</p>
+          <div class="rail-nav">
+            <button type="button" class="rail-item" id="btnNewSession">
+              <span class="rail-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="rail-copy">
+                <strong>新建会话</strong>
+                <em id="sessionIdLabel">开启新的导诊对话</em>
+              </span>
+            </button>
+
+            <div class="account" id="accountRoot">
+              <button type="button" class="rail-item" id="btnOpenLogin">
+                <span class="rail-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="1.7"/>
+                    <path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="rail-copy">
+                  <strong>登录 MedDesk</strong>
+                  <em>登录后才能对话与挂号</em>
+                </span>
+              </button>
+
+              <button type="button" class="rail-item is-hidden" id="accountTrigger" aria-haspopup="menu" aria-expanded="false" hidden>
+                <span class="rail-icon user-initial" id="accountAvatar" aria-hidden="true"></span>
+                <span class="rail-copy">
+                  <strong id="accountName">—</strong>
+                  <em id="accountRole">—</em>
+                </span>
+              </button>
+
+              <div class="account-menu" id="accountMenu" role="menu" hidden>
+                <div class="account-menu-head">
+                  <span class="rail-icon user-initial lg" id="menuAvatar" aria-hidden="true">张</span>
+                  <div class="account-menu-id">
+                    <strong id="menuName">—</strong>
+                    <em id="menuRole">—</em>
+                    <span class="account-username" id="menuUsername"></span>
+                  </div>
+                </div>
+                <div class="account-menu-actions">
+                  <button type="button" class="account-menu-btn" id="btnSwitchAccount" role="menuitem">切换账号</button>
+                  <button type="button" class="account-menu-btn danger" id="btnLogout" role="menuitem">退出登录</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="disclaimer">演示系统，不构成医疗建议。紧急情况请拨打 120。</p>
         </div>
       </aside>
 
@@ -97,24 +230,88 @@
           <div class="intent-meta" id="intentMeta"></div>
         </div>
 
-        <div class="chat" id="chatScroll">
+        <div class="chat" id="chatScroll" role="log" aria-live="polite" aria-relevant="additions">
           <div class="chat-inner" id="chatList">
             <!-- 欢迎卡 -->
             <article class="msg assistant welcome">
-              <div class="msg-body">
-                <p class="welcome-kicker">门诊一站式助手</p>
-                <h1>您好，我可以帮您完成这些事</h1>
-                <ul class="welcome-list">
-                  <li><b>预约挂号</b> — 「我想预约明天看内科」</li>
-                  <li><b>排队叫号</b> — 「帮我取个号」</li>
-                  <li><b>医疗咨询</b> — 「高血压是什么病？」</li>
-                  <li><b>症状诊断</b> — 「我最近总是头晕恶心」</li>
-                </ul>
-                <div class="quick-prompts" id="quickPrompts">
-                  <button type="button" class="chip" data-q="我想预约明天看内科">预约内科</button>
-                  <button type="button" class="chip" data-q="帮我取个号，科室是内科">内科取号</button>
-                  <button type="button" class="chip" data-q="高血压是什么病？">高血压咨询</button>
-                  <button type="button" class="chip" data-q="我最近总是头晕，还恶心，已经一周了">症状分析</button>
+              <div class="msg-body welcome-card">
+                <div class="welcome-copy">
+                  <p class="welcome-kicker">MedDesk · 门诊一站式助手</p>
+                  <h1>您好，我可以帮您完成这些事</h1>
+                  <p class="welcome-sub">用自然语言描述需求，系统会自动分发到预约、排队、咨询或诊断服务。</p>
+                  <div class="service-grid" id="serviceGrid">
+                    <button type="button" class="service-tile" data-q="我想预约明天看内科">
+                      <span class="tile-mark">约</span>
+                      <span class="tile-text">
+                        <strong>预约挂号</strong>
+                        <em>「我想预约明天看内科」</em>
+                      </span>
+                    </button>
+                    <button type="button" class="service-tile" data-q="帮我取个号，科室是内科">
+                      <span class="tile-mark">号</span>
+                      <span class="tile-text">
+                        <strong>排队叫号</strong>
+                        <em>「帮我取个号」</em>
+                      </span>
+                    </button>
+                    <button type="button" class="service-tile" data-q="高血压是什么病？">
+                      <span class="tile-mark">询</span>
+                      <span class="tile-text">
+                        <strong>医疗咨询</strong>
+                        <em>「高血压是什么病？」</em>
+                      </span>
+                    </button>
+                    <button type="button" class="service-tile" data-q="我最近总是头晕，还恶心，已经一周了">
+                      <span class="tile-mark">诊</span>
+                      <span class="tile-text">
+                        <strong>症状诊断</strong>
+                        <em>「我最近总是头晕恶心」</em>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="quick-prompts" id="quickPrompts">
+                    <span class="quick-label">快捷开始</span>
+                    <button type="button" class="chip" data-q="我想预约明天看内科">预约内科</button>
+                    <button type="button" class="chip" data-q="帮我取个号，科室是内科">内科取号</button>
+                    <button type="button" class="chip" data-q="高血压是什么病？">高血压咨询</button>
+                    <button type="button" class="chip" data-q="我最近总是头晕，还恶心，已经一周了">症状分析</button>
+                  </div>
+                </div>
+                <div class="welcome-art" aria-hidden="true">
+                  <svg viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="waBg" x1="30" y1="10" x2="330" y2="310" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#E4F3F2"/>
+                        <stop offset="1" stop-color="#F3F6F8"/>
+                      </linearGradient>
+                      <linearGradient id="waCard" x1="0" y1="0" x2="0" y2="1">
+                        <stop stop-color="#FFFFFF"/>
+                        <stop offset="1" stop-color="#F7FAFB"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="12" y="12" width="336" height="296" rx="28" fill="url(#waBg)"/>
+                    <circle cx="290" cy="64" r="48" fill="#0B6E6D" opacity="0.08"/>
+                    <circle cx="64" cy="268" r="54" fill="#0B6E6D" opacity="0.06"/>
+                    <circle cx="300" cy="250" r="28" fill="#0B6E6D" opacity="0.05"/>
+                    <!-- 排班卡 -->
+                    <rect x="36" y="48" width="160" height="104" rx="14" fill="url(#waCard)" stroke="#D9E2E8"/>
+                    <rect x="52" y="64" width="48" height="10" rx="5" fill="#0B6E6D" opacity="0.85"/>
+                    <rect x="52" y="88" width="120" height="8" rx="4" fill="#D9E2E8"/>
+                    <rect x="52" y="108" width="96" height="8" rx="4" fill="#D9E2E8"/>
+                    <rect x="52" y="128" width="72" height="8" rx="4" fill="#E4F3F2"/>
+                    <!-- 叫号卡 -->
+                    <rect x="188" y="84" width="124" height="96" rx="14" fill="url(#waCard)" stroke="#D9E2E8"/>
+                    <text x="250" y="136" text-anchor="middle" font-family="Cascadia Code, Consolas, monospace" font-size="36" font-weight="650" fill="#0B6E6D">08</text>
+                    <text x="250" y="158" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#5C6B7A">当前叫号</text>
+                    <!-- 对话卡 -->
+                    <rect x="72" y="188" width="200" height="78" rx="16" fill="url(#waCard)" stroke="#D9E2E8"/>
+                    <circle cx="100" cy="218" r="14" fill="#E4F3F2" stroke="#0B6E6D" stroke-width="1.5"/>
+                    <path d="M94 218h12M100 212v12" stroke="#0B6E6D" stroke-width="1.6" stroke-linecap="round"/>
+                    <rect x="126" y="210" width="120" height="8" rx="4" fill="#D9E2E8"/>
+                    <rect x="126" y="228" width="88" height="8" rx="4" fill="#E8EEF2"/>
+                    <!-- 脉冲线 -->
+                    <path d="M40 292h64l14-18 16 36 18-26 12 8h156" stroke="#0B6E6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+                  </svg>
                 </div>
               </div>
             </article>
@@ -122,6 +319,10 @@
         </div>
 
         <form class="composer" id="chatForm" autocomplete="off">
+          <div class="composer-gate" id="composerGate" hidden>
+            <span>登录后即可开始对话</span>
+            <button type="button" class="composer-gate-btn" id="btnComposerLogin">去登录</button>
+          </div>
           <label class="sr-only" for="chatInput">输入消息</label>
           <textarea
             id="chatInput"
@@ -167,7 +368,7 @@
             </label>
             <label>
               <span>姓名</span>
-              <input type="text" id="queueName" placeholder="张三" required maxlength="20" />
+              <input type="text" id="queueName" placeholder="请输入姓名" required maxlength="20" />
             </label>
             <button type="submit" class="btn secondary">取号</button>
           </form>
@@ -201,6 +402,6 @@
   </div>
 
   <div class="toast" id="toast" hidden role="status"></div>
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=20260909b"></script>
 </body>
 </html>

@@ -1,0 +1,86 @@
+<h2>医生门户 · 整体布局哪种好？</h2>
+<p class="subtitle">三种导航结构，点击卡片选择你倾向的方案</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;gap:6px;height:235px;font-size:11px;">
+        <div style="width:92px;background:#f1f5f9;border-radius:6px;padding:8px;color:#334155;">
+          <div style="font-weight:700;margin-bottom:8px;">🏥 医生门户</div>
+          <div style="background:#e2e8f0;border-radius:4px;padding:4px 6px;margin-bottom:4px;">叫号台</div>
+          <div style="padding:4px 6px;margin-bottom:2px;color:#64748b;">今日预约</div>
+          <div style="padding:4px 6px;margin-bottom:2px;color:#64748b;">排班管理</div>
+          <div style="padding:4px 6px;margin-bottom:2px;color:#64748b;">诊断记录</div>
+          <div style="padding:4px 6px;color:#64748b;">统计</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;">
+          <div style="font-weight:700;color:#0f172a;">叫号台</div>
+          <div style="background:#2563eb;color:#fff;border-radius:6px;padding:10px;text-align:center;margin:8px 0;font-weight:700;">叫 下 一 个</div>
+          <div style="background:#f8fafc;border-radius:4px;padding:5px;margin-bottom:4px;color:#475569;">当前：12号 王先生</div>
+          <div style="padding:3px 0;color:#475569;">13 李女士 · 14 赵先生 · 15 陈女士</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · 侧边栏经典后台</h3>
+      <p>左侧固定菜单，各功能独立页面，叫号台为首页。信息密度低、学习成本低，功能多了也好扩展。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;height:235px;font-size:11px;">
+        <div style="background:#f1f5f9;border-radius:6px;padding:6px 8px;display:flex;gap:6px;align-items:center;color:#334155;">
+          <span style="font-weight:700;">🏥</span>
+          <span style="background:#e2e8f0;border-radius:4px;padding:3px 8px;">叫号台</span>
+          <span style="color:#64748b;padding:3px 4px;">今日预约</span>
+          <span style="color:#64748b;padding:3px 4px;">排班管理</span>
+          <span style="color:#64748b;padding:3px 4px;">诊断记录</span>
+          <span style="color:#64748b;padding:3px 4px;">统计</span>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;display:flex;gap:8px;">
+          <div style="flex:1;">
+            <div style="background:#2563eb;color:#fff;border-radius:6px;padding:10px;text-align:center;font-weight:700;">叫 下 一 个</div>
+            <div style="background:#f8fafc;border-radius:4px;padding:5px;margin-top:6px;color:#475569;">当前：12号 王先生</div>
+          </div>
+          <div style="flex:1;color:#475569;">13 李女士<br>14 赵先生<br>15 陈女士</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · 顶部 Tab 式</h3>
+      <p>顶部标签切换功能页。纵向空间更充裕，切换直观，但标签数量有限（5 个左右是上限）。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;height:235px;font-size:11px;">
+        <div style="background:#f1f5f9;border-radius:6px;padding:6px 8px;display:flex;justify-content:space-between;color:#334155;">
+          <span style="font-weight:700;">🏥 医生工作台</span>
+          <span style="color:#64748b;">排班 · 病历 · 统计</span>
+        </div>
+        <div style="flex:1;display:flex;gap:6px;">
+          <div style="flex:1.2;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;">
+            <div style="font-weight:700;color:#0f172a;">叫号台</div>
+            <div style="background:#2563eb;color:#fff;border-radius:6px;padding:10px;text-align:center;font-weight:700;margin-top:6px;">叫 下 一 个</div>
+            <div style="background:#f8fafc;border-radius:4px;padding:5px;margin-top:6px;color:#475569;">当前：12号 王先生</div>
+            <div style="padding:3px 0;color:#475569;">13 李女士 · 14 赵先生</div>
+          </div>
+          <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;color:#475569;">
+            <div style="font-weight:700;color:#0f172a;margin-bottom:4px;">今日预约</div>
+            <div style="border-bottom:1px solid #f1f5f9;padding:3px 0;">09:30 张先生</div>
+            <div style="border-bottom:1px solid #f1f5f9;padding:3px 0;">10:00 刘女士</div>
+            <div style="padding:3px 0;">10:30 黄先生</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · 单页工作台</h3>
+      <p>一屏看板：左叫号右预约，其他功能从顶栏进二级页。医生日常操作零切换，但首页信息密度最高。</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">💡 说明：无论选哪种，都会另配一个全屏「候诊大屏」页（投在候诊区显示当前叫号），不影响本次选择。</p>

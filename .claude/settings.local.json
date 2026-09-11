@@ -30,7 +30,25 @@
       "Bash(node scripts/validate_palette.js \"#2a78d6,#008300\" --mode light)",
       "Bash(node scripts/validate_palette.js \"#3987e5,#008300\" --mode dark)",
       "Bash(explorer.exe \"D:\\\\Work\\\\Projects\\\\Python\\\\MedicalDiagnosisAgent\\\\eval\\\\reports\\\\dashboard.html\")",
-      "Bash(cmd //c start \"\" \"D:\\\\Work\\\\Projects\\\\Python\\\\MedicalDiagnosisAgent\\\\eval\\\\reports\\\\dashboard.html\")"
+      "Bash(cmd //c start \"\" \"D:\\\\Work\\\\Projects\\\\Python\\\\MedicalDiagnosisAgent\\\\eval\\\\reports\\\\dashboard.html\")",
+      "Skill(run)",
+      "Bash(.venv/Scripts/python.exe -m api.server)",
+      "Bash(curl -s -m 10 http://127.0.0.1:8000/api/health)",
+      "Bash(curl -s -m 10 -o /dev/null -w \"frontend /: HTTP %{http_code}\\\\n\" http://127.0.0.1:8000/)",
+      "Bash(curl -s -m 10 -o /dev/null -w \"app.js: HTTP %{http_code}\\\\n\" http://127.0.0.1:8000/static/app.js)",
+      "Bash(curl -s -m 60 -X POST http://127.0.0.1:8000/api/chat -H \"Content-Type: application/json\" -d '{\"message\":\"你好\",\"session_id\":\"smoke-test\"}')",
+      "Bash(curl -s -m 60 -X POST http://127.0.0.1:8000/api/chat -H \"Content-Type: application/json\" --data-binary @/tmp/chat.json)",
+      "Bash(curl -s -m 5 http://127.0.0.1:8000/api/health)",
+      "Bash(tasklist //FI \"PID eq 43364\")",
+      "Bash(netstat -ano)",
+      "Bash(bash \"C:/Users/MI/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"D:/Work/Projects/Python/MedicalDiagnosisAgent\")",
+      "Bash(curl *)",
+      "Bash(npm -v)",
+      "Bash(pnpm -v)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'docs: 新增医生门户设计文档 *)",
+      "Bash(git commit -m 'docs: 设计文档补充权限配置需求与表格格式修正 *)",
+      "Bash(git commit -m 'docs: 医生门户实现计划 *)"
     ]
   }
 }

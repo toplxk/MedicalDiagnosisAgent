@@ -13,7 +13,7 @@ import threading
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -27,14 +27,18 @@ from api.schemas import (
     ChatRequest,
     ChatResponse,
     CreateAppointmentRequest,
+    LoginRequest,
     QueueQueryRequest,
+    RegisterRequest,
     ScheduleQuery,
     SessionActionResponse,
+    SmsRequest,
     TakeNumberRequest,
 )
 from config import MEDICAL_DOCS_DIR
 from main import MedicalSystem
 from rag.vector_store import get_collection_count
+from services import auth as auth_service
 from tools import appointment_tool, patient_tool, queue_tool, symptom_tool
 
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
@@ -61,6 +65,12 @@ def _init_rag_once():
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    try:
+        from db.schema import bootstrap
+
+        bootstrap()
+    except Exception as e:  # noqa: BLE001
+        print(f"[DB] 初始化失败: {e}")
     thread = threading.Thread(target=_init_rag_once, daemon=True)
     thread.start()
     yield
@@ -87,6 +97,69 @@ def _envelope(result: dict[str, Any]) -> ApiEnvelope:
     message = result.get("message", "")
     data = {k: v for k, v in result.items() if k not in ("success", "message")}
     return ApiEnvelope(success=success, message=message, data=data)
+
+
+def _bearer_token(authorization: str | None) -> str | None:
+    if not authorization:
+        return None
+    parts = authorization.split(" ", 1)
+    if len(parts) == 2 and parts[0].lower() == "bearer":
+        return parts[1].strip()
+    return authorization.strip()
+
+
+def current_user(authorization: str | None = Header(None)) -> dict | None:
+    return auth_service.get_user_by_token(_bearer_token(authorization))
+
+
+# ── 登录 / 多平台 ────────────────────────────────────────────
+
+
+@app.get("/api/auth/platforms")
+def auth_platforms():
+    return {"success": True, "platforms": auth_service.list_platforms()}
+
+
+@app.post("/api/auth/login")
+def auth_login(req: LoginRequest):
+    result = auth_service.login(
+        req.platform,
+        username=req.username,
+        password=req.password,
+        phone=req.phone,
+        code=req.code,
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=401, detail=result.get("message", "登录失败"))
+    return result
+
+
+@app.post("/api/auth/register")
+def auth_register(req: RegisterRequest):
+    result = auth_service.register(req.username, req.password, req.display_name, req.phone)
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("message", "注册失败"))
+    return result
+
+
+@app.post("/api/auth/sms")
+def auth_sms(req: SmsRequest):
+    return auth_service.send_sms_code(req.phone)
+
+
+@app.get("/api/auth/me")
+def auth_me(authorization: str | None = Header(None)):
+    user = auth_service.get_user_by_token(_bearer_token(authorization))
+    if not user:
+        raise HTTPException(status_code=401, detail="未登录或登录已过期")
+    return {"success": True, "user": user}
+
+
+@app.post("/api/auth/logout")
+def auth_logout(authorization: str | None = Header(None)):
+    token = _bearer_token(authorization)
+    ok = auth_service.revoke_token(token)
+    return {"success": True, "message": "已退出登录" if ok else "会话不存在"}
 
 
 # ── 健康 / 状态 ──────────────────────────────────────────────
@@ -170,18 +243,29 @@ def list_departments():
     return _envelope({"success": True, "departments": appointment_tool.list_departments()})
 
 
+@app.get("/api/doctors", response_model=ApiEnvelope)
+def list_doctors(department: str | None = Query(None)):
+    return _envelope({"success": True, "doctors": appointment_tool.list_doctors(department)})
+
+
 @app.post("/api/schedule", response_model=ApiEnvelope)
 def query_schedule(req: ScheduleQuery):
     return _envelope(appointment_tool.query_schedule(req.department, req.date))
 
 
 @app.post("/api/appointments", response_model=ApiEnvelope)
-def create_appointment(req: CreateAppointmentRequest):
-    return _envelope(
-        appointment_tool.create_appointment(
-            req.department, req.doctor, req.date, req.period, req.patient_name, req.phone
-        )
+def create_appointment(req: CreateAppointmentRequest, authorization: str | None = Header(None)):
+    user = auth_service.get_user_by_token(_bearer_token(authorization))
+    result = appointment_tool.create_appointment(
+        req.department,
+        req.doctor,
+        req.date,
+        req.period,
+        req.patient_name,
+        req.phone,
+        user_id=user["id"] if user else None,
     )
+    return _envelope(result)
 
 
 @app.post("/api/appointments/query", response_model=ApiEnvelope)
@@ -198,8 +282,14 @@ def cancel_appointment(req: AppointmentIdRequest):
 
 
 @app.post("/api/queue/take", response_model=ApiEnvelope)
-def take_number(req: TakeNumberRequest):
-    return _envelope(queue_tool.take_number(req.department, req.patient_name))
+def take_number(req: TakeNumberRequest, authorization: str | None = Header(None)):
+    user = auth_service.get_user_by_token(_bearer_token(authorization))
+    result = queue_tool.take_number(
+        req.department,
+        req.patient_name,
+        user_id=user["id"] if user else None,
+    )
+    return _envelope(result)
 
 
 @app.post("/api/queue/query", response_model=ApiEnvelope)

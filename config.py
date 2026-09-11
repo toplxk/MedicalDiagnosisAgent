@@ -21,3 +21,11 @@ MEDICAL_DOCS_DIR = os.path.join(os.path.dirname(__file__), "data", "medical_docs
 
 # Agent 提示词目录
 PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "prompts")
+
+# MySQL
+MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
+MYSQL_PORT = int(os.getenv("MYSQL_PORT", "3306"))
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "123456")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "meddesk")
+MYSQL_CHARSET = "utf8mb4"

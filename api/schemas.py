@@ -44,6 +44,25 @@ class CreateAppointmentRequest(BaseModel):
     phone: str
 
 
+class LoginRequest(BaseModel):
+    platform: str = Field("password", description="password | phone | wechat | dingtalk")
+    username: str = ""
+    password: str = ""
+    phone: str = ""
+    code: str = ""
+
+
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+    display_name: str = ""
+    phone: str = ""
+
+
+class SmsRequest(BaseModel):
+    phone: str = Field(..., min_length=11)
+
+
 class AppointmentIdRequest(BaseModel):
     appointment_id: str
 

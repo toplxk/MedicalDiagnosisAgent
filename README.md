@@ -61,7 +61,11 @@ MedicalDiagnosisAgent/
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-├── config.py                   # 全局配置（API Key、模型名、路径）
+├── db/                         # MySQL 数据层
+│   ├── connection.py           # 连接与建库
+│   ├── schema.py               # DDL + 科室/医生种子
+│   └── __init__.py
+├── config.py                   # 全局配置（API Key、模型名、路径、MySQL）
 ├── requirements.txt            # 依赖清单
 ├── .env                        # API 密钥（需自行配置）
 │
@@ -79,8 +83,8 @@ MedicalDiagnosisAgent/
 │   ├── query_rewriter.py       # LLM 查询改写（口语→专业术语）
 │   └── retriever.py            # 检索器：改写→多路检索→融合
 │
-├── tools/                      # 模拟后端工具
-│   ├── appointment_tool.py     # 医生排班、预约 CRUD（12 科室，20+ 医生）
+├── tools/                      # 业务工具（预约/排队走 MySQL）
+│   ├── appointment_tool.py     # 科室/医生/排班/预约 CRUD
 │   ├── patient_tool.py         # 患者档案管理
 │   ├── queue_tool.py           # 排队系统
 │   └── symptom_tool.py         # 症状→疾病映射（25 种症状，含危重分级）
@@ -122,7 +126,16 @@ pip install -r requirements.txt
 ```env
 QIANWEN_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
 DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
+
+# MySQL（科室/医生/排班/预约/排队持久化）
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=123456
+MYSQL_DATABASE=meddesk
 ```
+
+首次启动会自动建库建表并写入科室/医生种子数据。
 
 ### 4. 启动系统
 
@@ -158,17 +171,26 @@ API 文档：http://127.0.0.1:8000/docs
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
+| POST | `/api/auth/login` | 多平台登录（password/phone/wechat/dingtalk） |
+| POST | `/api/auth/register` | 账号注册 |
+| POST | `/api/auth/sms` | 发送验证码（演示 123456） |
+| GET | `/api/auth/me` | 当前用户 |
+| POST | `/api/auth/logout` | 退出 |
+| GET | `/api/auth/platforms` | 支持的登录平台 |
 | POST | `/api/chat` | 对话（自动意图路由） |
 | POST | `/api/session/reset` | 重置会话 |
 | GET | `/api/departments` | 科室列表 |
+| GET | `/api/doctors` | 医生列表 |
 | POST | `/api/schedule` | 查询排班 |
-| POST | `/api/appointments` | 创建预约 |
+| POST | `/api/appointments` | 创建预约（登录后关联 user_id） |
 | POST | `/api/appointments/query` | 查询预约 |
 | POST | `/api/appointments/cancel` | 取消预约 |
-| POST | `/api/queue/take` | 取号 |
+| POST | `/api/queue/take` | 取号（登录后关联 user_id） |
 | GET | `/api/queue/{department}` | 队列状态 |
 | GET | `/api/health` | 健康检查 / RAG 状态 |
 | GET | `/api/symptoms` | 常见症状列表 |
+
+演示账号：`admin/admin123`、`zhangsan/123456`、`doctor/123456`；手机验证码固定 `123456`；微信/钉钉授权码任意字符串即可（首次自动开户）。
 
 ### 6. CLI 交互命令
 
